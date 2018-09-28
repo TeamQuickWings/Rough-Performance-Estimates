@@ -1,3 +1,5 @@
+angles: -12 12
+
 xflr5 v6.39
 
  Calculated polar for: C:/Users/Andrew Scherping/Documents/XFLR5/NACA2412.dat
