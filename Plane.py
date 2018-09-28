@@ -57,20 +57,27 @@ class Plane(object):
 
         self._K = 1 / (math.pi * self._e0 * aspect_ratio)
 
-        # Block to plot data from the XFLR5 file to determine an acceptable range for usable data
-        # Creates a plot of "_cl" vs. "_alpha"
-        fig = plt.figure()
-        p = fig.subplots()
-        p.plot(self._alpha, self._clx, "b")
-        p.set_xlabel("alpha (degrees)")
-        p.set_ylabel("cl")
-        p.set_title("cl vs. alpha for " + self._name)
-        plt.grid(True)
-        plt.show()
+        if data.got_angles():
 
-        # Asking the using to input the acceptable range for usable data
-        start_angle = float(input("Enter starting angle (must be an angle in the file): "))
-        end_angle = float(input("Enter last angle  (must be an angle in the file): "))
+            start_angle = data.get_start_angle()
+            end_angle = data.get_end_angle()
+
+        else:
+
+            # Block to plot data from the XFLR5 file to determine an acceptable range for usable data
+            # Creates a plot of "_cl" vs. "_alpha"
+            fig = plt.figure()
+            p = fig.subplots()
+            p.plot(self._alpha, self._clx, "b")
+            p.set_xlabel("alpha (degrees)")
+            p.set_ylabel("cl")
+            p.set_title("cl vs. alpha for " + self._name)
+            plt.grid(True)
+            plt.show()
+
+            # Asking the using to input the acceptable range for usable data
+            start_angle = float(input("Enter starting angle (must be an angle in the file): "))
+            end_angle = float(input("Enter last angle  (must be an angle in the file): "))
 
         # while loop to find the starting index of usable data
         start_index = 0
@@ -508,6 +515,66 @@ class Plane(object):
         return self._name
 
 
+class PlaneList:
+
+    def __init__(self):
+
+        self.lst = []
+
+    def add_plane(self, plane):
+
+        if len(self.lst) == 0:
+
+            self.lst.append(plane)
+
+        else:
+
+            found = False
+
+            for i in self.lst:
+
+                if plane.get_name() == i.get_name():
+
+                    found = True
+                    break
+
+            if not found:
+
+                self.lst.append(plane)
+
+    def remove_plane(self, plane):
+
+        self.lst.remove(plane)
+
+    def get_length(self):
+
+        return len(self.lst)
+
+    def greatest_endurance(self):
+
+        a = self.lst[0]
+
+        for i in self.lst:
+
+            if a.get_max_endurance() < i.get_max_endurance():
+
+                a = i
+
+        return a
+
+    def greatest_range(self):
+
+        a = self.lst[0]
+
+        for i in self.lst:
+
+            if a.get_max_range() < i.get_max_range():
+
+                a = i
+
+        return a
+
+
 class _XFLR5Data:
 
     def __init__(self, filename):
@@ -527,12 +594,22 @@ class _XFLR5Data:
         _cl_index = -1
         self._cd = []
         _cd_index = -1
+        self._start_angle = 0
+        self._end_angle = 0
+        self._got_angles = False
 
         got_column_titles = False
         for i in data:
 
             data_set = i.split()
             index = 0
+            if "angles:" in data_set:
+
+                if len(data_set) == 3:
+
+                    self._start_angle = float(data_set[1])
+                    self._end_angle = float(data_set[2])
+                    self._got_angles = True
 
             if len(data_set) > 0:
 
@@ -578,6 +655,18 @@ class _XFLR5Data:
     def get_cd_list(self):
 
         return self._cd
+
+    def got_angles(self):
+
+        return self._got_angles
+
+    def get_start_angle(self):
+
+        return self._start_angle
+
+    def get_end_angle(self):
+
+        return self._end_angle
 
 
 # private method to determine in an input is a number
