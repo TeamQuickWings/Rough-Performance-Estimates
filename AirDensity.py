@@ -5,16 +5,15 @@
 # import statements
 import math
 
-# block of constants
-aT = -(6.5 * (10 ** -3))
-TSL = 288.16
-d = 1.225
-g0 = 9.80065
-R = 287
-
-
 # method that returns the air density at given altitude "h"
 def get_air_density(h):
+
+    # block of constants
+    aT = -(6.5 * (10 ** -3))
+    TSL = 288.16
+    d = 1.225
+    g0 = 9.80065
+    R = 287
 
     # returns the air density from sea level to 11km
     if 0 <= h <= 11000:
@@ -37,7 +36,7 @@ def get_air_density(h):
         aS = 3 * (10 ** -3)
         temp0 = TSL + aT * 11000
         temp = temp0 + aS * (h - 25000)
-        rho0 = math.exp(-(g0 / (R * temp0)) * (h - 11000)) * (temp0 / TSL) ** ((-(g0 / (aT * R))) - 1) * d
+        rho0 = math.exp(-(g0 / (R * temp0)) * 14000) * (temp0 / TSL) ** ((-(g0 / (aT * R))) - 1) * d
         print(rho0)
         rho = (temp / temp0) ** ((-(g0 / (aS * R))) - 1) * rho0
         return rho
