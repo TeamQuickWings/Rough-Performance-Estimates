@@ -8,11 +8,12 @@ import TurboJet
 import ElectricMotor
 import Plane
 
-a = PistonEngine.PistonEngine("NACA_2412_Re5.256.txt", "Cessna 172", 11, 1.378, 0, 1.11, 2, 62, 84, 767, 173, 171,
+a = PistonEngine.PistonEngine1("NACA_2412_Re5.256.txt", "Cessna 172", 11, 1.378, 0, 3000, 2, 62, 84, 767, 173, 171,
                               0.0175, 0.7, 0.000000777, .9, 120000, 6)
+a.plot_data()
 
-b = PistonEngine.PistonEngine("NACA_2412_Re5.256.txt", "Cessna 172-1", 11, 1.378, 0, 1.11, 2, 62, 84, 747, 173, 190,
-                              0.0175, 0.7, 0.000000777, .9, 120000, 6)
+b = PistonEngine.PistonEngine2("Cessna172.txt")
+b.plot_data()
 
 lst = Plane.PlaneList()
 lst.add_plane(a)
