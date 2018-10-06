@@ -2,6 +2,7 @@
 # Abstract class to represent a plane and its estimated performance characteristics
 # "ElectricMotor" is class to represent and model the performance of an aircraft with an electric motor
 # September 2018
+# Last update October 2018
 # If there is a '!' please read the comment and make sure the data is filled out properly
 
 import Plane
@@ -85,11 +86,11 @@ class ElectricMotor2(Plane.Plane2):
         if ".txt" in filename:
             name = name[:-3]
 
-        self._battery_energy = battery_energy
-        self._motor_efficiency = motor_efficiency
-        self._propeller_efficiency = propeller_efficiency
-        self._motor_power = motor_power
-        self._air_density = self._air_density = AirDensity.get_air_density(cruise_alt)
+        self._battery_energy = data.get_battery_energy()
+        self._motor_efficiency = data.get_motor_efficiency()
+        self._propeller_efficiency = data.get_propeller_efficiency()
+        self._motor_power = data.get_motor_power()
+        self._air_density = self._air_density = AirDensity.get_air_density(data.get_cruise_altitude())
 
         super().__init__(name, data.get_wingspan(), data.get_chord(), data.get_swept_angle(),
                          data.get_cruise_altitude(), data.get_angle_of_attack_at_cruise(),
