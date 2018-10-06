@@ -8,6 +8,7 @@
 from abc import abstractmethod
 import matplotlib.pyplot as plt
 import math
+import AirDensity
 
 # gravity constant
 _gravity = 9.81
@@ -20,7 +21,7 @@ class Plane(object):
     # "Plane" constructor.
     # Please use SI units (m, s, kg, m/s) for all inputted condition, if the condition is an angle use degrees
     # The file input must be a text file, for "plane_airfoil_str" use an identifiable name
-    def __init__(self, filename, plane_airfoil_str, wing_span, chord, swept_angle, air_density_at_cruise,
+    def __init__(self, filename, plane_airfoil_str, wing_span, chord, swept_angle, cruise_alt,
                  angle_of_attack_at_cruise, target_cruise_velocity, max_velocity, aircraft_mass, cargo_mass, fuel_mass,
                  cD0, span_efficiency_factor, n_structure):
 
@@ -36,7 +37,7 @@ class Plane(object):
         self._cdx = data.get_cd_list()
         self._target_cruise_velocity = target_cruise_velocity
         self._cD0 = cD0
-        self._air_density = air_density_at_cruise
+        self._air_density = AirDensity.get_air_density(cruise_alt)
         self._n_structure = n_structure
         self._gravity = 9.81
 
@@ -53,7 +54,7 @@ class Plane(object):
 
         else:
 
-            self._e0 = (4.61 * (1 -(aspect_ratio ** 0.68)) * (math.cos(math.radians(swept_angle)) ** 0.15)) - 3.1
+            self._e0 = (4.61 * (1 - (aspect_ratio ** 0.68)) * (math.cos(math.radians(swept_angle)) ** 0.15)) - 3.1
 
         self._K = 1 / (math.pi * self._e0 * aspect_ratio)
 
@@ -213,15 +214,16 @@ class Plane(object):
 
             # adding "i" to "velocity"
             self._velocity.append(i)
+
             # Calculating thrust required
-            thrust_required = (.5 * air_density_at_cruise * (i ** 2) * self._wing_area * self._cD0) + \
+            thrust_required = (.5 * self._air_density * (i ** 2) * self._wing_area * self._cD0) + \
                               ((2 * self._K * self.get_gross_takeoff_weight()) /
-                               (air_density_at_cruise * (i ** 2) * self._wing_loading))
+                               (self._air_density * (i ** 2) * self._wing_loading))
 
             # Calculating power required
-            power_required = (.5 * air_density_at_cruise * (i ** 3) * self._wing_area * self._cD0) + \
+            power_required = (.5 * self._air_density * (i ** 3) * self._wing_area * self._cD0) + \
                              ((2 * self._K * (self.get_gross_takeoff_weight() ** 2)) /
-                              (air_density_at_cruise * i * self._wing_area))
+                              (self._air_density * i * self._wing_area))
 
             if self._min_power_required == 0 and self._min_thrust_required == 0:
 
