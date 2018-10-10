@@ -83,7 +83,8 @@ class PistonEngine1(Plane.Plane1):
 
     def get_angle_of_max_rate_of_climb_in_degrees(self):
 
-        return math.degrees(math.atan(self.get_max_rate_of_climb() / self.get_velocity_for_max_rate_of_climb()))
+        return math.degrees(math.atan(self.get_max_rate_of_climb_ft_per_s() /
+                                      self.get_velocity_for_max_rate_of_climb_knots()))
 
 
 class PistonEngine2(Plane.Plane2):
@@ -162,7 +163,8 @@ class PistonEngine2(Plane.Plane2):
 
     def get_angle_of_max_rate_of_climb_in_degrees(self):
 
-        return math.degrees(math.atan(self.get_max_rate_of_climb() / self.get_velocity_for_max_rate_of_climb()))
+        return math.degrees(math.atan(self.get_max_rate_of_climb_ft_per_s() /
+                                      self.get_velocity_for_max_rate_of_climb_knots()))
 
 
 class _XFLR5Data:
