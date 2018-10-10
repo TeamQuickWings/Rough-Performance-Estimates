@@ -43,7 +43,7 @@ class PistonEngine1(Plane.Plane1):
 
         return ((self._propeller_efficiency / self._specific_fuel_consumption) *
                 ((1 / (4 * self.get_K() * self.get_cD0())) ** .5) *
-                (math.log((self.get_gross_takeoff_weight() / self.get_empty_weight()), 10))) / 0.0001645788
+                (math.log((self.get_gross_takeoff_weight() / self.get_empty_weight()), 10))) * 0.0001645788
 
     def get_velocity_for_max_range_knots(self):
 
@@ -122,7 +122,7 @@ class PistonEngine2(Plane.Plane2):
 
         return ((self._propeller_efficiency / self._specific_fuel_consumption) *
                 ((1 / (4 * self.get_K() * self.get_cD0())) ** .5) *
-                (math.log((self.get_gross_takeoff_weight() / self.get_empty_weight()), 10))) / 0.0001645788
+                (math.log((self.get_gross_takeoff_weight() / self.get_empty_weight()), 10))) * 0.0001645788
 
     def get_velocity_for_max_range_knots(self):
 
