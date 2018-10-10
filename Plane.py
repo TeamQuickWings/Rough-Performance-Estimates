@@ -966,7 +966,7 @@ class PlaneList:
 
         for i in self.lst:
 
-            if a.get_max_endurance() < i.get_max_endurance():
+            if a.get_max_endurance_min() < i.get_max_endurance_min():
 
                 a = i
 
@@ -978,7 +978,7 @@ class PlaneList:
 
         for i in self.lst:
 
-            if a.get_max_range() < i.get_max_range():
+            if a.get_max_range_nm() < i.get_max_range_nm():
 
                 a = i
 
