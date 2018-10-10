@@ -37,28 +37,28 @@ class TurboJet1(Plane.Plane1):
 
         return "Turbojet"
 
-    def get_max_range(self):
+    def get_max_range_nm(self):
 
         return (2 / self._thrust_specific_fuel_consumption) * ((2 / (self._air_density * self.get_wing_area())) ** .5) \
                * (0.75 * ((1 / (3 * self.get_K() * (self.get_cD0() ** 3))) ** 0.25)) \
-               * ((self.get_gross_takeoff_weight() ** 0.5) - (self.get_empty_weight() ** 0.5))
+               * ((self.get_gross_takeoff_weight() ** 0.5) - (self.get_empty_weight() ** 0.5)) * 0.0001645788
 
-    def get_velocity_for_max_range(self):
+    def get_velocity_for_max_range_knots(self):
 
-        return ((2 / self._air_density) * self.get_wing_loading() * ((self.get_K() / (3 * self.get_cD0())) ** 0.5)) \
-               ** 0.5
+        return (((2 / self._air_density) * self.get_wing_loading() * ((self.get_K() / (3 * self.get_cD0())) ** 0.5))
+                ** 0.5) / 1.687811
 
-    def get_max_endurance(self):
+    def get_max_endurance_min(self):
 
-        return (1 / self._thrust_specific_fuel_consumption) * ((1 / (4 * self.get_K() * self.get_cD0())) ** 0.5) \
-               * math.log(self.get_gross_takeoff_weight() / self.get_empty_weight(), 10)
+        return ((1 / self._thrust_specific_fuel_consumption) * ((1 / (4 * self.get_K() * self.get_cD0())) ** 0.5)
+                * math.log(self.get_gross_takeoff_weight() / self.get_empty_weight(), 10)) / 60
 
-    def get_velocity_for_max_endurance(self):
+    def get_velocity_for_max_endurance_knots(self):
 
-        return ((2 / self._air_density) * self.get_wing_loading() * ((self.get_K() / self.get_cD0()) ** 0.5)) \
-               ** 0.5
+        return (((2 / self._air_density) * self.get_wing_loading() * ((self.get_K() / self.get_cD0()) ** 0.5))
+                ** 0.5) / 1.687811
 
-    def get_max_rate_of_climb(self):
+    def get_max_rate_of_climb_ft_per_s(self):
 
         clcd_max = (1 / (4 * self.get_K() * self.get_cD0()))
         z = 1 + ((1 + (3 / ((clcd_max ** 2) * ((self._engine_thrust / self.get_gross_takeoff_weight()) ** 2)))) ** 0.5)
@@ -67,14 +67,14 @@ class TurboJet1(Plane.Plane1):
         return (((self.get_wing_loading() * z) / (3 * self._air_density * self.get_cD0())) ** 0.5) * \
                (t_w ** 1.5) * (1 - (z / 6) - (3 / (2 * (t_w ** 2) * (clcd_max ** 2) * z)))
 
-    def get_velocity_for_max_rate_of_climb(self):
+    def get_velocity_for_max_rate_of_climb_knots(self):
 
         cl_max = (1 / (4 * self.get_K() * self.get_cD0()))
         z = 1 + ((1 + (3 / ((cl_max ** 2) * ((self._engine_thrust / self.get_gross_takeoff_weight()) ** 2)))) ** 0.5)
         t_w = self._engine_thrust / self.get_gross_takeoff_weight()
 
-        return (((t_w * self.get_gross_takeoff_weight()) / (3 * self._air_density * self.get_cD0())) *
-                (1 + ((1 + (3 / ((cl_max ** 2) * (t_w ** 2)))) ** .5))) ** 0.5
+        return ((((t_w * self.get_gross_takeoff_weight()) / (3 * self._air_density * self.get_cD0())) *
+                (1 + ((1 + (3 / ((cl_max ** 2) * (t_w ** 2)))) ** .5))) ** 0.5) / 1.687811
 
     def get_angle_of_max_rate_of_climb_in_degrees(self):
 
@@ -112,28 +112,28 @@ class TurboJet2(Plane.Plane2):
 
         return "Turbojet"
 
-    def get_max_range(self):
+    def get_max_range_nm(self):
 
         return (2 / self._thrust_specific_fuel_consumption) * ((2 / (self._air_density * self.get_wing_area())) ** .5) \
                * (0.75 * ((1 / (3 * self.get_K() * (self.get_cD0() ** 3))) ** 0.25)) \
-               * ((self.get_gross_takeoff_weight() ** 0.5) - (self.get_empty_weight() ** 0.5))
+               * ((self.get_gross_takeoff_weight() ** 0.5) - (self.get_empty_weight() ** 0.5)) * 0.0001645788
 
-    def get_velocity_for_max_range(self):
+    def get_velocity_for_max_range_knots(self):
 
-        return ((2 / self._air_density) * self.get_wing_loading() * ((self.get_K() / (3 * self.get_cD0())) ** 0.5)) \
-               ** 0.5
+        return (((2 / self._air_density) * self.get_wing_loading() * ((self.get_K() / (3 * self.get_cD0())) ** 0.5))
+                ** 0.5) / 1.687811
 
-    def get_max_endurance(self):
+    def get_max_endurance_min(self):
 
-        return (1 / self._thrust_specific_fuel_consumption) * ((1 / (4 * self.get_K() * self.get_cD0())) ** 0.5) \
-               * math.log(self.get_gross_takeoff_weight() / self.get_empty_weight(), 10)
+        return ((1 / self._thrust_specific_fuel_consumption) * ((1 / (4 * self.get_K() * self.get_cD0())) ** 0.5)
+                * math.log(self.get_gross_takeoff_weight() / self.get_empty_weight(), 10)) / 60
 
-    def get_velocity_for_max_endurance(self):
+    def get_velocity_for_max_endurance_knots(self):
 
-        return ((2 / self._air_density) * self.get_wing_loading() * ((self.get_K() / self.get_cD0()) ** 0.5)) \
-               ** 0.5
+        return (((2 / self._air_density) * self.get_wing_loading() * ((self.get_K() / self.get_cD0()) ** 0.5))
+                ** 0.5) / 1.687811
 
-    def get_max_rate_of_climb(self):
+    def get_max_rate_of_climb_ft_per_s(self):
 
         clcd_max = (1 / (4 * self.get_K() * self.get_cD0()))
         z = 1 + ((1 + (3 / ((clcd_max ** 2) * ((self._engine_thrust / self.get_gross_takeoff_weight()) ** 2)))) ** 0.5)
@@ -142,14 +142,14 @@ class TurboJet2(Plane.Plane2):
         return (((self.get_wing_loading() * z) / (3 * self._air_density * self.get_cD0())) ** 0.5) * \
                (t_w ** 1.5) * (1 - (z / 6) - (3 / (2 * (t_w ** 2) * (clcd_max ** 2) * z)))
 
-    def get_velocity_for_max_rate_of_climb(self):
+    def get_velocity_for_max_rate_of_climb_knots(self):
 
         cl_max = (1 / (4 * self.get_K() * self.get_cD0()))
         z = 1 + ((1 + (3 / ((cl_max ** 2) * ((self._engine_thrust / self.get_gross_takeoff_weight()) ** 2)))) ** 0.5)
         t_w = self._engine_thrust / self.get_gross_takeoff_weight()
 
-        return (((t_w * self.get_gross_takeoff_weight()) / (3 * self._air_density * self.get_cD0())) *
-                (1 + ((1 + (3 / ((cl_max ** 2) * (t_w ** 2)))) ** .5))) ** 0.5
+        return ((((t_w * self.get_gross_takeoff_weight()) / (3 * self._air_density * self.get_cD0())) *
+                (1 + ((1 + (3 / ((cl_max ** 2) * (t_w ** 2)))) ** .5))) ** 0.5) / 1.687811
 
     def get_angle_of_max_rate_of_climb_in_degrees(self):
 
@@ -183,9 +183,10 @@ class _XFLR5Data:
         self._got_angles = False
         self._dictionary = dict(wingspan=False, chord=False, swept_angle=False, cruise_altitude=False,
                                 angle_of_attack_at_cruise=False, target_cruise_velocity=False, max_velocity=False,
-                                aircraft_weight=False, cargo_weight=False, fuel_weight=False, empty_weight_friction=False,
-                                span_efficiency_factor=False, thrust_specific_fuel_consumption=False,
-                                propeller_efficiency=False, engine_thrust=False, n_structure=False)
+                                aircraft_weight=False, cargo_weight=False, fuel_weight=False,
+                                empty_weight_friction=False, span_efficiency_factor=False,
+                                thrust_specific_fuel_consumption=False, propeller_efficiency=False,
+                                engine_thrust=False, n_structure=False)
 
         for i in data:
 
