@@ -5,6 +5,9 @@
 # import statements
 import math
 
+_c = 0.00194032  # conversation factor from kg/m**2 to slugs/ft**3
+
+
 # method that returns the air density at given altitude "h"
 def get_air_density(h):
 
@@ -20,7 +23,7 @@ def get_air_density(h):
 
         temp = TSL + aT * h
         rho = (temp / TSL)**((-(g0 / (aT * R)))-1) * d
-        return rho
+        return rho * _c
 
     # returns the air density from 11km to 25 km
     elif 11000 < h <= 25000:
@@ -28,7 +31,7 @@ def get_air_density(h):
         temp = TSL + aT * 11000
         rho0 = (temp / TSL) ** ((-(g0 / (aT * R))) - 1) * d
         rho = math.exp(-(g0 / (R * temp)) * (h - 11000)) * rho0
-        return rho
+        return rho * _c
 
     # returns the air density above 25km
     elif h > 25000:
@@ -39,7 +42,7 @@ def get_air_density(h):
         rho0 = math.exp(-(g0 / (R * temp0)) * 14000) * (temp0 / TSL) ** ((-(g0 / (aT * R))) - 1) * d
         print(rho0)
         rho = (temp / temp0) ** ((-(g0 / (aS * R))) - 1) * rho0
-        return rho
+        return rho * _c
 
     # returns -1 if the given altitude is negative
     return -1
