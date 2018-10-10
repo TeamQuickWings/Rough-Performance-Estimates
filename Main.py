@@ -8,18 +8,16 @@ import TurboJet
 import ElectricMotor
 import Plane
 
-a = PistonEngine.PistonEngine1("NACA_2412_Re5.256.txt", "Cessna 172", 11, 1.378, 0, 3000, 2, 62, 84, 767, 173, 171,
-                              0.0175, 0.7, 0.000000777, .9, 120000, 6)
-a.plot_data()
+a = PistonEngine.PistonEngine1("NACA_2412_Re5.256.txt", "Cessna 172", 36.09, 4.521, 0, 3000, 2, 122, 163, 1691, 381,
+                               377, 0.0175, 0.7, 0.777, .9, 160, 6)
+print(a.get_max_range_nm())
 
 b = PistonEngine.PistonEngine2("Cessna172.txt")
-b.plot_data()
+print(b.get_max_range_nm())
 
 lst = Plane.PlaneList()
 lst.add_plane(a)
 lst.add_plane(b)
 
-c = lst.greatest_range()
-
-print(c.get_name())
+print(lst.greatest_range().get_name())
 
