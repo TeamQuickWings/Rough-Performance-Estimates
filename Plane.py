@@ -189,7 +189,7 @@ class Plane1(object):
             # Calculating power required
             power_required = ((.5 * self._air_density * (i ** 3) * self._wing_area * self._cD0) +
                               ((2 * self._K * (self.get_gross_takeoff_weight() ** 2)) /
-                              (self._air_density * i * self._wing_area))) / 550  # 550 is the hp conversation
+                              (self._air_density * i * self._wing_area))) / 550  # 550 is the hp conversion
 
             if self._min_power_required == 0 and self._min_thrust_required == 0:
 
@@ -639,7 +639,7 @@ class Plane2(object):
             # Calculating power required
             power_required = ((.5 * self._air_density * (i ** 3) * self._wing_area * self._cD0) +
                               ((2 * self._K * (self.get_gross_takeoff_weight() ** 2)) /
-                               (self._air_density * i * self._wing_area))) / 550  # 550 is the hp conversation
+                               (self._air_density * i * self._wing_area))) / 550  # 550 is the hp conversion
 
             if self._min_power_required == 0 and self._min_thrust_required == 0:
 
@@ -672,37 +672,37 @@ class Plane2(object):
 
     # Abstract method to get the maximum range in m
     @abstractmethod
-    def get_max_range(self):
+    def get_max_range_nm(self):
 
         pass
 
     # Abstract method to get the velocity in m/s for the maximum range
     @abstractmethod
-    def get_velocity_for_max_range(self):
+    def get_velocity_for_max_range_knots(self):
 
         pass
 
     # Abstract method to get the maximum endurance in s
     @abstractmethod
-    def get_max_endurance(self):
+    def get_max_endurance_min(self):
 
         pass
 
     # Abstract method to get the velocity in m/s for the maximum endurance
     @abstractmethod
-    def get_velocity_for_max_endurance(self):
+    def get_velocity_for_max_endurance_knots(self):
 
         pass
 
     # Abstract method to get them maximum rate of climb in m/s
     @abstractmethod
-    def get_max_rate_of_climb(self):
+    def get_max_rate_of_climb_ft_per_s(self):
 
         pass
 
     # Abstract method to get the velocity in m/s for the maximum rate of climb
     @abstractmethod
-    def get_velocity_for_max_rate_of_climb(self):
+    def get_velocity_for_max_rate_of_climb_knots(self):
 
         pass
 
