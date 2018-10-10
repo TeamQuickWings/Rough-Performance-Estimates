@@ -2,6 +2,7 @@
 # Abstract class to represent a plane and its estimated performance characteristics
 # "TurboJet" is class to represent and model the performance of an aircraft with a turbojet or a turbofan
 # September 2018
+# Last update October 2018
 # If there is a '!' please read the comment and make sure the data is filled out properly
 
 import Plane
@@ -9,25 +10,28 @@ import math
 import AirDensity
 import matplotlib.pyplot as plt
 
+# gravity constant
+_gravity = 32.174
+
 
 class TurboJet1(Plane.Plane1):
 
     def __init__(self, filename, plane_airfoil_str, wing_span, chord, swept_angle, cruise_alt,
-                 angle_of_attack_at_cruise, target_cruise_velocity, max_velocity, aircraft_mass, cargo_mass, fuel_mass,
-                 empty_weight_friction, span_efficiency_factor, thrust_specific_fuel_consumption,
+                 angle_of_attack_at_cruise, target_cruise_velocity, max_velocity, aircraft_weight, cargo_weight,
+                 fuel_weight, empty_weight_friction, span_efficiency_factor, thrust_specific_fuel_consumption,
                  engine_thrust, n_structure):
 
-        self._thrust_specific_fuel_consumption = thrust_specific_fuel_consumption
-        self._aircraft_mass = aircraft_mass
-        self._cargo_mass = cargo_mass
-        self._fuel_mass = fuel_mass
-        self._air_density = self._air_density = AirDensity.get_air_density(cruise_alt)
+        self._thrust_specific_fuel_consumption = thrust_specific_fuel_consumption * (8.6335972 * (10 ** -5))
+        # conversion from lbm/(lbf*hr) to slugs/(lbf*s)
+        self._aircraft_weight = aircraft_weight
+        self._cargo_weight = cargo_weight
+        self._fuel_weight = fuel_weight
+        self._air_density = AirDensity.get_air_density(cruise_alt)
         self._engine_thrust = engine_thrust
-        self._gravity = 9.81
 
         super().__init__(filename, plane_airfoil_str, wing_span, chord, swept_angle, cruise_alt,
-                         angle_of_attack_at_cruise, target_cruise_velocity, max_velocity, aircraft_mass, cargo_mass,
-                         fuel_mass, empty_weight_friction, span_efficiency_factor, n_structure)
+                         angle_of_attack_at_cruise, target_cruise_velocity, max_velocity, aircraft_weight, cargo_weight,
+                         fuel_weight, empty_weight_friction, span_efficiency_factor, n_structure)
 
     def type_of_power_plant(self):
 
@@ -89,18 +93,18 @@ class TurboJet2(Plane.Plane2):
         if ".txt" in filename:
             name = name[:-3]
 
-        self._thrust_specific_fuel_consumption = data.get_thrust_specific_fuel_consumption()
-        self._aircraft_mass = data.get_aircraft_mass()
-        self._cargo_mass = data.get_cargo_mass()
-        self._fuel_mass = data.get_fuel_mass()
+        self._thrust_specific_fuel_consumption = data.get_thrust_specific_fuel_consumption() * (8.6335972 * (10 ** -5))
+        # conversion from lbm/(lbf*hr) to slugs/(lbf*s)
+        self._aircraft_weight = data.get_aircraft_weight()
+        self._cargo_weight = data.get_cargo_weight()
+        self._fuel_weight = data.get_fuel_weight()
         self._air_density = self._air_density = AirDensity.get_air_density(data.get_cruise_altitude())
         self._engine_thrust = data.get_engine_thrust()
-        self._gravity = 9.81
 
         super().__init__(name, data.get_wingspan(), data.get_chord(), data.get_swept_angle(),
                          data.get_cruise_altitude(), data.get_angle_of_attack_at_cruise(),
-                         data.get_target_cruise_velocity(), data.get_max_velocity(), data.get_aircraft_mass(),
-                         data.get_cargo_mass(), data.get_fuel_mass(), data.get_empty_weight_friction(),
+                         data.get_target_cruise_velocity(), data.get_max_velocity(), data.get_aircraft_weight(),
+                         data.get_cargo_weight(), data.get_fuel_weight(), data.get_empty_weight_friction(),
                          data.get_span_efficiency_factor(), data.get_n_structure(), data.get_alpha_list(),
                          data.get_cl_list(), data.get_cd_list())
 
@@ -179,7 +183,7 @@ class _XFLR5Data:
         self._got_angles = False
         self._dictionary = dict(wingspan=False, chord=False, swept_angle=False, cruise_altitude=False,
                                 angle_of_attack_at_cruise=False, target_cruise_velocity=False, max_velocity=False,
-                                aircraft_mass=False, cargo_mass=False, fuel_mass=False, empty_weight_friction=False,
+                                aircraft_weight=False, cargo_weight=False, fuel_weight=False, empty_weight_friction=False,
                                 span_efficiency_factor=False, thrust_specific_fuel_consumption=False,
                                 propeller_efficiency=False, engine_thrust=False, n_structure=False)
 
@@ -326,17 +330,17 @@ class _XFLR5Data:
 
         return self._dictionary.get("max_velocity")
 
-    def get_aircraft_mass(self):
+    def get_aircraft_weight(self):
 
-        return self._dictionary.get("aircraft_mass")
+        return self._dictionary.get("aircraft_weight")
 
-    def get_cargo_mass(self):
+    def get_cargo_weight(self):
 
-        return self._dictionary.get("cargo_mass")
+        return self._dictionary.get("cargo_weight")
 
-    def get_fuel_mass(self):
+    def get_fuel_weight(self):
 
-        return self._dictionary.get("fuel_mass")
+        return self._dictionary.get("fuel_weight")
 
     def get_empty_weight_friction(self):
 
@@ -349,10 +353,6 @@ class _XFLR5Data:
     def get_thrust_specific_fuel_consumption(self):
 
         return self._dictionary.get("thrust_specific_fuel_consumption")
-
-    def get_propeller_efficiency(self):
-
-        return self._dictionary.get("propeller_efficiency")
 
     def get_engine_thrust(self):
 
