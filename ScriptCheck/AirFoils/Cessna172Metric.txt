@@ -11,8 +11,8 @@ cargo_mass: 173
 fuel_mass: 171
 cD0: 0.0341
 span_efficiency_factor: 0.7
-specific_fuel_consumption: 2000
-propeller_efficiency: 0.9
+specific_fuel_consumption: 1992
+propeller_efficiency: 0.7
 engine_power: 120000
 n_structure: 6
 

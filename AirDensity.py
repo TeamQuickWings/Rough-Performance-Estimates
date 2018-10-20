@@ -5,7 +5,7 @@
 # import statements
 import math
 
-_c = 0.00194032  # conversation factor from kg/m**2 to slugs/ft**3
+_c = 0.00194032  # conversation factor from kg/m**3 to slugs/ft**3
 
 
 # method that returns the air density at given altitude "h"
