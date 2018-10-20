@@ -29,7 +29,7 @@ class XFLR5DataEnglishJet:
         self._dictionary = dict(wingspan=False, chord=False, swept_angle=False, cruise_altitude=False,
                                 angle_of_attack_at_cruise=False, target_cruise_velocity=False, max_velocity=False,
                                 aircraft_weight=False, cargo_weight=False, fuel_weight=False,
-                                empty_weight_friction=False, span_efficiency_factor=False,
+                                cD0=False, span_efficiency_factor=False,
                                 thrust_specific_fuel_consumption=False, propeller_efficiency=False,
                                 engine_thrust=False, n_structure=False)
 
@@ -188,9 +188,9 @@ class XFLR5DataEnglishJet:
 
         return self._dictionary.get("fuel_mass")
 
-    def get_empty_weight_friction(self):
+    def get_cD0(self):
 
-        return self._dictionary.get("empty_weight_friction")
+        return self._dictionary.get("cD0")
 
     def get_span_efficiency_factor(self):
 
@@ -237,7 +237,7 @@ class XFLR5DataMetricJet:
         self._dictionary = dict(wingspan=False, chord=False, swept_angle=False, cruise_altitude=False,
                                 angle_of_attack_at_cruise=False, target_cruise_velocity=False, max_velocity=False,
                                 aircraft_mass=False, cargo_mass=False, fuel_mass=False,
-                                empty_weight_friction=False, span_efficiency_factor=False,
+                                cD0=False, span_efficiency_factor=False,
                                 thrust_specific_fuel_consumption=False, propeller_efficiency=False,
                                 engine_thrust=False, n_structure=False)
 
@@ -396,9 +396,9 @@ class XFLR5DataMetricJet:
 
         return self._dictionary.get("fuel_mass")
 
-    def get_empty_weight_friction(self):
+    def get_cD0(self):
 
-        return self._dictionary.get("empty_weight_friction")
+        return self._dictionary.get("cD0")
 
     def get_span_efficiency_factor(self):
 
@@ -445,7 +445,7 @@ class XFLR5DataEnglishProp:
         self._dictionary = dict(wingspan=False, chord=False, swept_angle=False, cruise_altitude=False,
                                 angle_of_attack_at_cruise=False, target_cruise_velocity=False, max_velocity=False,
                                 aircraft_weight=False, cargo_weight=False, fuel_weight=False,
-                                empty_weight_friction=False, span_efficiency_factor=False,
+                                cD0=False, span_efficiency_factor=False,
                                 specific_fuel_consumption=False, propeller_efficiency=False, engine_power=False,
                                 n_structure=False)
 
@@ -604,9 +604,9 @@ class XFLR5DataEnglishProp:
 
         return self._dictionary.get("fuel_weight")
 
-    def get_empty_weight_friction(self):
+    def get_cD0(self):
 
-        return self._dictionary.get("empty_weight_friction")
+        return self._dictionary.get("cD0")
 
     def get_span_efficiency_factor(self):
 
@@ -656,10 +656,9 @@ class XFLR5DataMetricProp:
         self._got_angles = False
         self._dictionary = dict(wingspan=False, chord=False, swept_angle=False, cruise_altitude=False,
                                 angle_of_attack_at_cruise=False, target_cruise_velocity=False, max_velocity=False,
-                                aircraft_mass=False, cargo_mass=False, fuel_mass=False,
-                                empty_weight_friction=False, span_efficiency_factor=False,
-                                specific_fuel_consumption=False, propeller_efficiency=False, engine_power=False,
-                                n_structure=False)
+                                aircraft_mass=False, cargo_mass=False, fuel_mass=False, cD0=False, 
+                                span_efficiency_factor=False, specific_fuel_consumption=False,
+                                propeller_efficiency=False, engine_power=False, n_structure=False)
 
         for i in data:
 
@@ -816,9 +815,9 @@ class XFLR5DataMetricProp:
 
         return self._dictionary.get("fuel_mass")
 
-    def get_empty_weight_friction(self):
+    def get_cD0(self):
 
-        return self._dictionary.get("empty_weight_friction")
+        return self._dictionary.get("cD0")
 
     def get_span_efficiency_factor(self):
 
@@ -868,9 +867,9 @@ class XFLR5DataMetricElectric:
         self._got_angles = False
         self._dictionary = dict(wingspan=False, chord=False, swept_angle=False, cruise_altitude=False,
                                 angle_of_attack_at_cruise=False, target_cruise_velocity=False, max_velocity=False,
-                                aircraft_mass=False, cargo_mass=False, fuel_mass=False, battery_energy=False,
-                                empty_weight_friction=False, span_efficiency_factor=False, propeller_efficiency=False,
-                                motor_efficiency=False, motor_power=False, n_structure=False)
+                                aircraft_mass=False, cargo_mass=False, fuel_mass=False, battery_energy=False, cD0=False, 
+                                span_efficiency_factor=False, propeller_efficiency=False, motor_efficiency=False, 
+                                motor_power=False, n_structure=False)
 
         for i in data:
 
@@ -1031,9 +1030,9 @@ class XFLR5DataMetricElectric:
 
         return self._dictionary.get("battery_energy")
 
-    def get_empty_weight_friction(self):
+    def get_cD0(self):
 
-        return self._dictionary.get("empty_weight_friction")
+        return self._dictionary.get("cD0")
 
     def get_span_efficiency_factor(self):
 

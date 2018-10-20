@@ -250,6 +250,21 @@ class PlaneEnglish(object):
 
         pass
 
+    @abstractmethod
+    def get_velocity_for_rate_of_climb_at_cruise(self):
+
+        pass
+
+    @abstractmethod
+    def get_rate_of_climb_at_cruise(self):
+
+        pass
+
+    @abstractmethod
+    def get_angle_of_rate_of_climb_at_cruise_in_degrees(self):
+
+        pass
+
     # Method to get "_wing_span"
     def get_wing_span(self):
 
@@ -331,10 +346,14 @@ class PlaneEnglish(object):
         return self._cL_max
 
     # Method to get the stall velocity in m/s
-    def get_v_stall(self):
+    def get_v_stall_at_cruise(self):
 
-        return (((2 * self._gross_takeoff_weight) / (self._air_density * self._wing_area * self._cL_max)) ** 0.5) / \
-               1.687811
+        return (((2 * self._gross_takeoff_weight) / (self._air_density * self._wing_area * self._cL_max)) ** 0.5) \
+               * 0.5924835
+
+    def get_v_stall_at_sea_level(self):
+
+        return (((2 * self._gross_takeoff_weight) / (0.002376892 * self._wing_area * self._cL_max)) ** 0.5) * 0.5924835
 
     # Method to get the force of lift in N at the target velocity
     def get_lift_force_at_target_velocity(self):
@@ -370,8 +389,9 @@ class PlaneEnglish(object):
 
         speed = ((((2 * self._n_structure) / (self._air_density * self._cL_max)) * self._wing_loading) ** .5) / 1.687811
 
-        if speed < self.get_v_stall():
-            return self.get_v_stall()
+        if speed < self.get_v_stall_at_cruise():
+
+            return self.get_v_stall_at_cruise()
 
         return speed
 
@@ -559,19 +579,17 @@ class PlaneMetric(object):
 
             # Equation to estimate cL at angle alpha
 
-            cL_value = (self._a_per_degree * (self._alpha[i] - self._zero_lift_angle))
+            cL_value = self._a_per_degree * (self._alpha[i] - self._zero_lift_angle)
 
             self._cL.append(cL_value)
-
-            if self._alpha[i] == angle_of_attack_at_cruise:
-
-                self._cL_at_cruise = cL_value
 
             if cL_value > self._cL_max:
 
                 self._cL_max = cL_value
 
         self._cL_slope = (self._cL[len(self._cL) - 1] - self._cL[0]) / len(self._alpha)
+
+        self._cL_at_cruise = self._a_per_degree * (angle_of_attack_at_cruise - self._zero_lift_angle)
 
         self._cd0 = self._cdx[0]
         for i in range(0, len(self._alpha)):
@@ -594,10 +612,8 @@ class PlaneMetric(object):
             self._cD.append(cD_value)
             self._cd.append(self._cd0)
 
-            # If statement to add "cD_value" to "cD0" when alpha is the angle of attack at cruise
-            if self._alpha[i] == angle_of_attack_at_cruise:
-
-                self._cD_at_cruise = cD_value
+        self._cD_at_cruise = (((self._a_per_degree * (angle_of_attack_at_cruise - self._zero_lift_angle)) ** 2) *
+                              self._K) + (self._cD0 + self._cd0)
 
         # Equation for the gross takeoff weight
         self._gross_takeoff_weight = (cargo_mass + fuel_mass + aircraft_mass) * _gravity_metric
@@ -707,6 +723,21 @@ class PlaneMetric(object):
 
         pass
 
+    @abstractmethod
+    def get_velocity_for_rate_of_climb_at_cruise(self):
+
+        pass
+
+    @abstractmethod
+    def get_rate_of_climb_at_cruise(self):
+
+        pass
+
+    @abstractmethod
+    def get_angle_of_rate_of_climb_at_cruise_in_degrees(self):
+
+        pass
+
     # Method to get "_wing_span"
     def get_wing_span(self):
 
@@ -765,7 +796,7 @@ class PlaneMetric(object):
     # Method to get CD at cruise
     def get_cD_at_cruise(self):
 
-        return self._cd_at_cruise
+        return self._cD_at_cruise
 
     # Method to get the wing loading
     def get_wing_loading(self):
@@ -788,9 +819,13 @@ class PlaneMetric(object):
         return self._cL_max
 
     # Method to get the stall velocity in m/s
-    def get_v_stall(self):
+    def get_v_stall_at_cruise(self):
 
         return ((2 * self._gross_takeoff_weight) / (self._air_density * self._wing_area * self._cL_max)) ** 0.5
+
+    def get_v_stall_at_sea_level(self):
+
+        return ((2 * self._gross_takeoff_weight) / (1.225 * self._wing_area * self._cL_max)) ** 0.5
 
     # Method to get the force of lift in N at the target velocity
     def get_lift_force_at_target_velocity(self):
@@ -808,7 +843,7 @@ class PlaneMetric(object):
         if self.get_n_at_target_velocity() < 1:
 
             print("n < 1. n needs to be greater than 1")
-            return -1
+            return None
 
         return (self._target_cruise_velocity ** 2) / (_gravity_metric * (((self.get_n_at_target_velocity() ** 2) - 1)
                                                                        ** .5))
@@ -817,8 +852,9 @@ class PlaneMetric(object):
     def get_turn_rate_at_target_velocity(self):
 
         if self.get_n_at_target_velocity() < 1:
+
             print("n < 1. n needs to be greater than 1")
-            return -1
+            return None
 
         return math.degrees((_gravity_metric * (((self.get_n_at_target_velocity() ** 2) - 1) ** .5)) /
                             self._target_cruise_velocity)
@@ -828,29 +864,20 @@ class PlaneMetric(object):
 
         speed = (((2 * self._n_structure) / (self._air_density * self._cL_max)) * self._wing_loading) ** .5
 
-        if speed < self.get_v_stall():
+        if speed < self.get_v_stall_at_cruise():
 
-            return self.get_v_stall()
+            return self.get_v_stall_at_cruise()
 
         return speed
 
     # Method to get the turn turn turn radius at the maneuvering velocity in m
     def get_turn_radius_at_maneuvering_velocity(self):
 
-        if self.get_n_at_target_velocity() < 1:
-
-            print("n < 1. n needs to be greater than 1")
-            return -1
-
         return (self.get_maneuvering_velocity() ** 2) / (_gravity_metric * (((self._n_structure ** 2) - 1)
                                                                        ** .5))
 
     # Method to get the turn rate in degrees/s at the maneuvering velocity
     def get_turn_rate_at_maneuvering_velocity(self):
-
-        if self.get_n_at_target_velocity() < 1:
-            print("n < 1. n needs to be greater than 1")
-            return -1
 
         return math.degrees((_gravity_metric * (((self._n_structure ** 2) - 1) ** .5)) /
                             self.get_maneuvering_velocity())
@@ -985,130 +1012,3 @@ class PlaneList:
 
         return a
 
-
-class _XFLR5Data:
-
-    def __init__(self, filename):
-
-        file = open(filename, "r")
-        data = []
-
-        for i in file:
-
-            data.append(i)
-
-        file.close()
-
-        self._alpha = []
-        _alpha_index = -1
-        self._cl = []
-        _cl_index = -1
-        self._cd = []
-        _cd_index = -1
-        self._got_angles = False
-
-        got_column_titles = False
-        for i in data:
-
-            data_set = i.split()
-            index = 0
-            if "angles:" in data_set:
-
-                if len(data_set) == 3:
-
-                    self._start_angle = float(data_set[1])
-                    self._end_angle = float(data_set[2])
-                    self._got_angles = True
-
-            if len(data_set) > 0:
-
-                if _is_number(data_set[0]) is False and not got_column_titles:
-
-                    string_split = i.split()
-
-                    for j in string_split:
-
-                        if "alpha" in j:
-
-                            _alpha_index = index
-
-                        if "CL" in j:
-
-                            _cl_index = index
-
-                        if "CD" in j:
-
-                            _cd_index = index
-
-                        index += 1
-
-                        if _alpha_index > -1 and _cl_index > -1 and _cd_index > -1:
-
-                            got_column_titles = True
-                            break
-
-                if got_column_titles and _is_number(data_set[0]):
-
-                    self._alpha.append(float(data_set[_alpha_index]))
-                    self._cl.append(float(data_set[_cl_index]))
-                    self._cd.append(float(data_set[_cd_index]))
-
-        if self._got_angles:
-
-            start_angle = self._start_angle
-            end_angle = self._end_angle
-
-        else:
-
-            # Block to plot data from the XFLR5 file to determine an acceptable range for usable data
-            # Creates a plot of "_cl" vs. "_alpha"
-            fig = plt.figure()
-            p = fig.subplots()
-            p.plot(self._alpha, self._cl, "b")
-            p.set_xlabel("alpha (degrees)")
-            p.set_ylabel("cl")
-            p.set_title("cl vs. alpha for " + filename)
-            plt.grid(True)
-            plt.show()
-
-            # Asking the using to input the acceptable range for usable data
-            start_angle = float(input("Enter starting angle (must be an angle in the file): "))
-            end_angle = float(input("Enter last angle  (must be an angle in the file): "))
-
-        # while loop to find the starting index of usable data
-        start_index = 0
-        while start_angle != self._alpha[start_index]:
-            start_index += 1
-
-        # while loop to find the ending index of usable data
-        end_index = 0
-        while end_angle != self._alpha[end_index]:
-            end_index += 1
-
-        self._alpha = self._alpha[start_index:end_index]
-        self._cl = self._cl[start_index:end_index]
-        self._cd = self._cd[start_index:end_index]
-
-    def get_alpha_list(self):
-
-        return self._alpha
-
-    def get_cl_list(self):
-
-        return self._cl
-
-    def get_cd_list(self):
-
-        return self._cd
-
-    def got_angles(self):
-
-        return self._got_angles
-
-    def get_start_angle(self):
-
-        return self._start_angle
-
-    def get_end_angle(self):
-
-        return self._end_angle
