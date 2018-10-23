@@ -155,6 +155,7 @@ class TestPlane(unittest.TestCase):
 
         self.assertTrue((10 ** (-5)) > error)
 
+    # TODO
     def test_turn_rate_at_maneuvering_velocity(self):
 
         error = (self.a.get_turn_rate_at_maneuvering_velocity() - 39.543557) / 39.543557
@@ -194,7 +195,6 @@ class TestPlane(unittest.TestCase):
 
 
 class TestPistionEngine(unittest.TestCase):
-
     def setUp(self):
 
         self.a = PistonEngine.PistonEngineMetric2("Cessna172Metric.txt")
