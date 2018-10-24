@@ -9,10 +9,10 @@ max_velocity: 163
 aircraft_weight: 1691
 cargo_weight: 381
 fuel_weight: 377
-empty_weight_friction: 0.0341
+cD0: 0.0341
 span_efficiency_factor: 0.7
 specific_fuel_consumption: 0.421
-propeller_efficiency: 0.9
+propeller_efficiency: 0.7
 engine_power: 160
 n_structure: 6
 

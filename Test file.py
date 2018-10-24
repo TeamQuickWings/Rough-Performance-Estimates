@@ -1,8 +1,7 @@
-import AirDensity
 import PistonEngine
 
 dictionary = dict(angles=False, wingspan=False, swept_angle=False, cruise_altitude=False,
-                          angle_of_attack_at_cruise=False)
+                  angle_of_attack_at_cruise=False)
 
 dictionary["swept_angle"] = 0
 

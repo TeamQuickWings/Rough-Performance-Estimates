@@ -7,19 +7,17 @@ import PistonEngine
 import TurboJet
 import ElectricMotor
 import Plane
+import XFLR5Data
 
-a = PistonEngine.PistonEngine1("NACA_2412_Re5.256.txt", "Cessna 172", 11, 1.378, 0, 3000, 2, 62, 84, 767, 173, 171,
-                              0.0175, 0.7, 0.000000777, .9, 120000, 6)
-a.plot_data()
+a = PistonEngine.PistonEngineMetric2("Cessna172Metric.txt")
+b = PistonEngine.PistonEngineEnglish2("Cessna172.txt")
+print(b.get_v_stall_at_cruise())
 
-b = PistonEngine.PistonEngine2("Cessna172.txt")
-b.plot_data()
 
-lst = Plane.PlaneList()
-lst.add_plane(a)
-lst.add_plane(b)
+# b = PistonEngine.PistonEngineEnglish2("Cessna172.txt")
+# c = PistonEngine.PistonEngineEnglish1("Cessna172.txt", "Test", 36.09, 4.521, 0, 5000, 0, 122, 163, 1691, 381, 419,
+#                                      0.0175, 0.7, 0.777, 0.9, 160, 6)
 
-c = lst.greatest_range()
 
-print(c.get_name())
+
 
