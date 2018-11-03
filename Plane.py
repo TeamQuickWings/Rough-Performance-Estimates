@@ -10,6 +10,7 @@ from abc import abstractmethod
 import matplotlib.pyplot as plt
 import math
 import AirDensity
+import csv
 
 # gravity constant
 _gravity_english = 32.174
@@ -34,6 +35,9 @@ class PlaneEnglish(object):
         self._air_density = AirDensity.get_air_density_english(cruise_alt)
         self._n_structure = n_structure
         self._max_velocity = max_velocity * 1.687811
+        self._aircraft_weight = aircraft_weight
+        self._cargo_weight = cargo_weight
+        self._fuel_weight = fuel_weight
 
         # Block to calculate constants used in flight performance
         self._wing_area = wing_span * chord
@@ -83,6 +87,7 @@ class PlaneEnglish(object):
         self._cl = []
         self._alpha_range = []
         for i in range(0, len(self._alpha)):
+
             self._cl.append((self._a0_per_degree * self._alpha[i]) + self._b)
             self._alpha_range.append(self._alpha[i])
 
@@ -96,6 +101,7 @@ class PlaneEnglish(object):
         for i in range(0, len(self._alpha)):
 
             if self._alpha[i] == angle_of_attack_at_cruise:
+
                 self._cd_at_cruise = self._cdx[i]
                 break
 
@@ -113,9 +119,11 @@ class PlaneEnglish(object):
             self._cL.append(cL_value)
 
             if self._alpha[i] == angle_of_attack_at_cruise:
+
                 self._cL_at_cruise = cL_value
 
             if cL_value > self._cL_max:
+
                 self._cL_max = cL_value
 
         self._cL_slope = (self._cL[len(self._cL) - 1] - self._cL[0]) / len(self._alpha)
@@ -142,6 +150,7 @@ class PlaneEnglish(object):
 
             # If statement to add "cD_value" to "cD0" when alpha is the angle of attack at cruise
             if self._alpha[i] == angle_of_attack_at_cruise:
+
                 self._cD_at_cruise = cD_value
 
         # Equation for the gross takeoff weight
@@ -208,45 +217,45 @@ class PlaneEnglish(object):
 
         pass
 
-    # Abstract method to get the maximum range in m
+    # Abstract method to get the maximum range in nm
     @abstractmethod
-    def get_max_range_nm(self):
+    def get_max_range(self):
 
         pass
 
-    # Abstract method to get the velocity in m/s for the maximum range
+    # Abstract method to get the velocity in knots for the maximum range
     @abstractmethod
-    def get_velocity_for_max_range_knots(self):
+    def get_velocity_for_max_range(self):
 
         pass
 
     # Abstract method to get the maximum endurance in s
     @abstractmethod
-    def get_max_endurance_min(self):
+    def get_max_endurance(self):
 
         pass
 
-    # Abstract method to get the velocity in m/s for the maximum endurance
+    # Abstract method to get the velocity in knots for the maximum endurance
     @abstractmethod
-    def get_velocity_for_max_endurance_knots(self):
+    def get_velocity_for_max_endurance(self):
 
         pass
 
-    # Abstract method to get them maximum rate of climb in m/s
+    # Abstract method to get them maximum rate of climb in ft/s
     @abstractmethod
-    def get_max_rate_of_climb_ft_per_s(self):
+    def get_max_rate_of_climb(self):
 
         pass
 
-    # Abstract method to get the velocity in m/s for the maximum rate of climb
+    # Abstract method to get the velocity in knots for the maximum rate of climb
     @abstractmethod
-    def get_velocity_for_max_rate_of_climb_knots(self):
+    def get_velocity_for_max_rate_of_climb(self):
 
         pass
 
     # Abstract method to get the angle in degrees for the angle of the max rate of climb
     @abstractmethod
-    def get_angle_of_max_rate_of_climb_in_degrees(self):
+    def get_angle_of_max_rate_of_climb(self):
 
         pass
 
@@ -261,7 +270,7 @@ class PlaneEnglish(object):
         pass
 
     @abstractmethod
-    def get_angle_of_rate_of_climb_at_cruise_in_degrees(self):
+    def get_angle_of_climb_at_cruise(self):
 
         pass
 
@@ -280,6 +289,18 @@ class PlaneEnglish(object):
 
         return self._empty_weight
 
+    def get_aircraft_weight(self):
+
+        return self._aircraft_weight
+
+    def get_cargo_weight(self):
+
+        return self._cargo_weight
+
+    def get_fuel_weight(self):
+
+        return self._fuel_weight
+
     # Method to return the power required at the target cruise velocity in Watts
     def get_power_required_at_target_cruise_velocity(self):
 
@@ -290,12 +311,12 @@ class PlaneEnglish(object):
 
         return self._thrust_req_at_target_cruise
 
-    # Method to get the minimum power required in watts
+    # Method to get the minimum power required in hp
     def get_minimum_power_required(self):
 
         return self._min_power_required
 
-    # Method to get the minimum thrust required in N
+    # Method to get the minimum thrust required in lb
     def get_minimum_thrust_required(self):
 
         return self._min_thrust_required
@@ -335,7 +356,7 @@ class PlaneEnglish(object):
 
         return self._cD0
 
-    # Method to get the wing surface area in m^2
+    # Method to get the wing surface area in ft^2
     def get_wing_area(self):
 
         return self._wing_area
@@ -345,7 +366,7 @@ class PlaneEnglish(object):
 
         return self._cL_max
 
-    # Method to get the stall velocity in m/s
+    # Method to get the stall velocity in knots
     def get_v_stall_at_cruise(self):
 
         return (((2 * self._gross_takeoff_weight) / (self._air_density * self._wing_area * self._cL_max)) ** 0.5) \
@@ -355,7 +376,7 @@ class PlaneEnglish(object):
 
         return (((2 * self._gross_takeoff_weight) / (0.002376892 * self._wing_area * self._cL_max)) ** 0.5) * 0.5924835
 
-    # Method to get the force of lift in N at the target velocity
+    # Method to get the force of lift in lb at the target velocity
     def get_lift_force_at_target_velocity(self):
 
         return .5 * self._air_density * (self._target_cruise_velocity ** 2) * self._wing_area * self.get_cL_at_cruise()
@@ -365,7 +386,7 @@ class PlaneEnglish(object):
 
         return self.get_lift_force_at_target_velocity() / self._gross_takeoff_weight
 
-    # Method to get the turn radius in m at the target velocity
+    # Method to get the turn radius in ft at the target velocity
     def get_turn_radius_at_target_velocity(self):
 
         if self.get_n_at_target_velocity() < 1:
@@ -384,7 +405,7 @@ class PlaneEnglish(object):
         return math.degrees((_gravity_english * (((self.get_n_at_target_velocity() ** 2) - 1) ** .5)) /
                             self._target_cruise_velocity)
 
-    # Method to get the maneuvering velocity in m/s
+    # Method to get the maneuvering velocity in knots
     def get_maneuvering_velocity(self):
 
         speed = ((((2 * self._n_structure) / (self._air_density * self._cL_max)) * self._wing_loading) ** .5) / 1.687811
@@ -395,23 +416,16 @@ class PlaneEnglish(object):
 
         return speed
 
-    # Method to get the turn turn turn radius at the maneuvering velocity in m
+    # Method to get the turn turn turn radius at the maneuvering velocity in ft
     def get_turn_radius_at_maneuvering_velocity(self):
-
-        if self.get_n_at_target_velocity() < 1:
-            print("n < 1. n needs to be greater than 1")
-            return -1
 
         return (self.get_maneuvering_velocity() ** 2) / (_gravity_english * (((self._n_structure ** 2) - 1) ** .5))
 
     # Method to get the turn rate in degrees/s at the maneuvering velocity
     def get_turn_rate_at_maneuvering_velocity(self):
 
-        if self.get_n_at_target_velocity() < 1:
-            print("n < 1. n needs to be greater than 1")
-            return -1
-
-        return math.degrees((_gravity_english * (((self._n_structure ** 2) - 1) ** .5)) / self.get_maneuvering_velocity())
+        return math.degrees((_gravity_english * (((self._n_structure ** 2) - 1) ** .5)) /
+                            (self.get_maneuvering_velocity() * 1.687811))
 
     # Method to get the pull up radius in m at the target velocity
     def get_pull_up_radius_at_target_velocity(self):
@@ -426,12 +440,14 @@ class PlaneEnglish(object):
     # Method to get the minimum pull up radius in m
     def get_min_pull_up_radius(self):
 
-        return (self.get_maneuvering_velocity() ** 2) / (_gravity_english * (self._n_structure - 1))
+        return ((self.get_maneuvering_velocity() * 1.687811) ** 2) / (_gravity_english * (self._n_structure - 1))
 
     # Method to get the maximum pull up rate in degrees/s
     def get_max_pull_up_rate(self):
 
-        return math.degrees((_gravity_english * (self._n_structure - 1)) / self.get_maneuvering_velocity())
+        maneuvering_velocity = self.get_maneuvering_velocity() * 1.687811
+
+        return math.degrees((_gravity_english * (self._n_structure - 1)) / maneuvering_velocity)
 
     # Method to plot the data
     def plot_data(self):
@@ -483,6 +499,11 @@ class PlaneEnglish(object):
 
         return self._name
 
+    @staticmethod
+    def get_unit_system():
+
+        return "English"
+
 
 class PlaneMetric(object):
 
@@ -501,6 +522,9 @@ class PlaneMetric(object):
         self._air_density = AirDensity.get_air_density_metric(cruise_alt)
         self._n_structure = n_structure
         self._max_velocity = max_velocity
+        self._aircraft_weight = aircraft_mass * _gravity_metric
+        self._cargo_weight = cargo_mass * _gravity_metric
+        self._fuel_weight = fuel_mass * _gravity_metric
 
         # Block to calculate constants used in flight performance
         self._wing_area = wing_span * chord
@@ -734,7 +758,7 @@ class PlaneMetric(object):
         pass
 
     @abstractmethod
-    def get_angle_of_rate_of_climb_at_cruise_in_degrees(self):
+    def get_angle_of_climb_at_cruise_in_degrees(self):
 
         pass
 
@@ -752,6 +776,18 @@ class PlaneMetric(object):
     def get_empty_weight(self):
 
         return self._empty_weight
+
+    def get_aircraft_weight(self):
+
+        return self._aircraft_weight
+
+    def get_cargo_weight(self):
+
+        return self._cargo_weight
+
+    def get_fuel_weight(self):
+
+        return self._fuel_weight
 
     # Method to return the power required at the target cruise velocity in Watts
     def get_power_required_at_target_cruise_velocity(self):
@@ -951,6 +987,11 @@ class PlaneMetric(object):
 
         return self._name
 
+    @staticmethod
+    def get_unit_system():
+
+        return "Metric"
+
 
 # TODO fix for metric and english
 class PlaneList:
@@ -1012,3 +1053,37 @@ class PlaneList:
 
         return a
 
+
+def write_to_csv(plane):
+
+    file_name = "Planes/" + plane.get_name() + ".csv"
+
+    file = open(file_name, "w", newline="")
+    writer = csv.writer(file, dialect="excel")
+    writer.writerow([plane.get_name()])
+    writer.writerow(["Unit System", plane.get_unit_system()])
+    writer.writerow(["Gross Take Off Weight (N / lbf)", plane.get_gross_takeoff_weight()])
+    writer.writerow(["Aircraft Weight (N / lbf)", plane.get_aircraft_weight()])
+    writer.writerow(["Fuel Weight (N / lbf)", plane.get_fuel_weight()])
+    writer.writerow(["Cargo Weight (N / lbf)", plane.get_cargo_weight()])
+    writer.writerow(["Maximum Range (m / nm)", plane.get_max_range()])
+    writer.writerow(["Velocity for Maximum Range (m/s / knots)", plane.get_velocity_for_max_range()])
+    writer.writerow(["Maximum Endurance (s)", plane.get_max_endurance()])
+    writer.writerow(["Velocity for Maximum Endurance (m/s / knots)", plane.get_velocity_for_max_endurance()])
+    writer.writerow(["Minimum Power Required (watts / hp)", plane.get_minimum_power_required()])
+    writer.writerow(["Power Required at Target Velocity (watts / hp", plane.get_power_required_at_target_cruise_velocity()])
+    writer.writerow(["CD0", plane.get_cD0()])
+    writer.writerow(["Wing Span (m / ft)", plane.get_wing_span()])
+    writer.writerow(["Wing Area (m^2 / ft^2)", plane.get_wing_area()])
+    writer.writerow(["Wing Loading (N/m^2 / lbf/ft^2)", plane.get_wing_loading()])
+    writer.writerow(["V Stall at Sea Level (m/s / knots)", plane.get_v_stall_at_sea_level()])
+    writer.writerow(["Maneuvering Velocity (m/s / knots)", plane.get_maneuvering_velocity()])
+    writer.writerow(["Minimum Turn Radius (m / ft)", plane.get_turn_radius_at_maneuvering_velocity()])
+    writer.writerow(["Maximum Turn Rate (degrees/s)", plane.get_turn_rate_at_maneuvering_velocity()])
+    writer.writerow(["Minimum Pull up Radius (m / ft)", plane.get_min_pull_up_radius()])
+    writer.writerow(["Maximum Pull up Rate (degrees/s)", plane.get_max_pull_up_rate()])
+    writer.writerow(["Max Rate of Climb (m/s / ft/s)", plane.get_max_rate_of_climb()])
+    writer.writerow(["Velocity for Max Rate of Climb (m/s / ft/s)", plane.get_velocity_for_max_rate_of_climb()])
+    writer.writerow(["Angle of Attack for Max Rate of Climb (degrees)", plane.get_angle_of_max_rate_of_climb()])
+
+    file.close()

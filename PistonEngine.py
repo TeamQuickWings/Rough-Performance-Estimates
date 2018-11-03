@@ -22,14 +22,14 @@ class PistonEngineEnglish1(Plane.PlaneEnglish):
         name = "AirFoils/" + filename
         data = XFLR5Data.XFLR5Data(name)
 
-        self._specific_fuel_consumption = specific_fuel_consumption * 8.635972222 * (10 ** (-6))  # conversion from
-        # lbm/(hp*hr) to slugs/(lbf*ft)
+        self._specific_fuel_consumption = specific_fuel_consumption * 5.11686929 * (10 ** (-7))  # conversion from
+        # lb/(hp*hr) to lb/(((lb*ft)/s)*s)
         self._propeller_efficiency = propeller_efficiency
         self._aircraft_weight = aircraft_weight
         self._cargo_weight = cargo_weight
         self._fuel_weight = fuel_weight
         self._air_density = AirDensity.get_air_density_english(cruise_alt)
-        self._engine_power = engine_power
+        self._engine_power = (engine_power * 32572) / 60
 
         super().__init__(plane_airfoil_str, wing_span, chord, swept_angle, cruise_alt, angle_of_attack_at_cruise,
                          target_cruise_velocity, max_velocity, aircraft_weight, cargo_weight, fuel_weight,
@@ -40,38 +40,38 @@ class PistonEngineEnglish1(Plane.PlaneEnglish):
 
         return "Piston Engine"
 
-    def get_max_range_nm(self):
+    def get_max_range(self):
 
         return ((self._propeller_efficiency / self._specific_fuel_consumption) *
                 ((1 / (4 * self.get_K() * self.get_cD0())) ** .5) *
                 (math.log((self.get_gross_takeoff_weight() / self.get_empty_weight()), 10))) * 0.0001645788
 
-    def get_velocity_for_max_range_knots(self):
+    def get_velocity_for_max_range(self):
 
         return (((2 / self._air_density) * self.get_wing_loading() * ((self.get_K() / self.get_cD0()) ** .5)) ** 0.5) \
                / 1.687811
 
-    def get_max_endurance_min(self):
+    def get_max_endurance(self):
 
         return ((self._propeller_efficiency / self._specific_fuel_consumption) *
                 (0.25 * ((3 / (self.get_K() * (self.get_cD0() ** (1/3)))) ** (3 / 4))) *
                 ((2 * self._air_density * self._wing_area) ** 0.5) *
-                ((1 / (self.get_empty_weight() ** 0.5)) - (1 / (self.get_gross_takeoff_weight() ** 0.5)))) / 60
+                ((1 / (self.get_empty_weight() ** 0.5)) - (1 / (self.get_gross_takeoff_weight() ** 0.5))))
 
-    def get_velocity_for_max_endurance_knots(self):
+    def get_velocity_for_max_endurance(self):
 
         return ((((2 / self._air_density) * self.get_wing_loading() *
                  ((self.get_K() / (3 * self.get_cD0())) ** 0.5)) ** 0.5)) / 1.687811
 
-    def get_rate_of_climb_at_cruise_ft_per_s(self):
+    def get_rate_of_climb_at_cruise(self):
 
-        power = (1.132 * (self._air_density / 1.225) - 0.132) * self._engine_power
+        power = ((1.132 * (self._air_density / AirDensity.get_air_density_english(0))) - 0.132) * self._engine_power
 
         return ((self._propeller_efficiency * power) / self.get_gross_takeoff_weight()) - \
-                ((((2 / self._air_density) * ((self.get_K() / (3 * self.get_cD0())) ** 0.5) * self.get_wing_loading())
-                  ** 0.5) * (1.155 / ((1 / (4 * self.get_K() * self.get_cD0())) ** 0.5)))
+               ((((2 / self._air_density) * ((self.get_K() / (3 * self.get_cD0())) ** 0.5) * self.get_wing_loading())
+                ** 0.5) * (1.155 / ((1 / (4 * self.get_K() * self.get_cD0())) ** 0.5)))
 
-    def get_velocity_for_rate_of_climb_at_cruise_knots(self):
+    def get_velocity_for_rate_of_climb_at_cruise(self):
 
         v_climb = (((2 / self._air_density) * ((self.get_K() / (3 * self.get_cD0())) ** 0.5) * self.get_wing_loading())
                    ** 0.5) / 1.687811
@@ -84,12 +84,12 @@ class PistonEngineEnglish1(Plane.PlaneEnglish):
 
             return v_climb
 
-    def get_angle_of_rate_of_climb_at_cruise_in_degrees(self):
+    def get_angle_of_climb_at_cruise(self):
 
-        return math.degrees(math.atan((self.get_rate_of_climb_at_cruise_ft_per_s() * 0.5924835) /
-                                      self.get_velocity_for_rate_of_climb_at_cruise_knots()))
+        return math.degrees(math.atan((self.get_rate_of_climb_at_cruise() * 0.5924835) /
+                                      self.get_velocity_for_rate_of_climb_at_cruise()))
 
-    def get_rate_max_of_climb_ft_per_s(self):
+    def get_max_rate_of_climb(self):
 
         air_density = AirDensity.get_air_density_english(0)
 
@@ -97,7 +97,7 @@ class PistonEngineEnglish1(Plane.PlaneEnglish):
                ((((2 / air_density) * ((self.get_K() / (3 * self.get_cD0())) ** 0.5) * self.get_wing_loading())
                 ** 0.5) * (1.155 / ((1 / (4 * self.get_K() * self.get_cD0())) ** 0.5)))
 
-    def get_velocity_for_rate_of_climb_at_cruise(self):
+    def get_velocity_for_max_rate_of_climb(self):
 
         air_density = AirDensity.get_air_density_english(0)
 
@@ -112,10 +112,10 @@ class PistonEngineEnglish1(Plane.PlaneEnglish):
 
             return v_climb
 
-    def get_max_angle_of_rate_of_climb_in_degrees(self):
+    def get_angle_of_max_rate_of_climb(self):
 
-        return math.degrees(math.atan((self.get_max_rate_of_climb_ft_per_s() * 0.5924835) /
-                                      self.get_velocity_for_max_rate_of_climb_knots()))
+        return math.degrees(math.atan((self.get_max_rate_of_climb() * 0.5924835) /
+                                      self.get_velocity_for_max_rate_of_climb()))
 
 
 class PistonEngineEnglish2(Plane.PlaneEnglish):
@@ -128,7 +128,7 @@ class PistonEngineEnglish2(Plane.PlaneEnglish):
 
         name = filename
         if ".txt" in filename:
-            name = name[:-3]
+            name = name[:-4]
 
         self._plane = PistonEngineEnglish1(filename, name, data.get_wingspan(), data.get_chord(),
                                            data.get_swept_angle(), data.get_cruise_altitude(),
@@ -150,33 +150,33 @@ class PistonEngineEnglish2(Plane.PlaneEnglish):
 
         return self._plane.type_of_power_plant()
 
-    def get_max_range_nm(self):
+    def get_max_range(self):
 
-        return self._plane.get_max_range_nm()
+        return self._plane.get_max_range()
 
-    def get_velocity_for_max_range_knots(self):
+    def get_velocity_for_max_range(self):
 
-        return self._plane.get_velocity_for_max_range_knots()
+        return self._plane.get_velocity_for_max_range()
 
-    def get_max_endurance_min(self):
+    def get_max_endurance(self):
 
-        return self._plane.get_max_endurance_min()
+        return self._plane.get_max_endurance()
 
-    def get_velocity_for_max_endurance_knots(self):
+    def get_velocity_for_max_endurance(self):
 
-        return self._plane.get_velocity_for_max_endurance_knots()
+        return self._plane.get_velocity_for_max_endurance()
 
-    def get_max_rate_of_climb_ft_per_s(self):
+    def get_max_rate_of_climb(self):
 
-        return self._plane.get_max_rate_of_climb_ft_per_s()
+        return self._plane.get_max_rate_of_climb()
 
-    def get_velocity_for_max_rate_of_climb_knots(self):
+    def get_velocity_for_max_rate_of_climb(self):
 
-        return self._plane.get_velocity_for_max_rate_of_climb_knots()
+        return self._plane.get_velocity_for_max_rate_of_climb()
 
-    def get_angle_of_max_rate_of_climb_in_degrees(self):
+    def get_angle_of_max_rate_of_climb(self):
 
-        return self._plane.get_angle_of_max_rate_of_climb_in_degrees()
+        return self._plane.get_angle_of_max_rate_of_climb()
 
     def get_rate_of_climb_at_cruise(self):
 
@@ -186,9 +186,9 @@ class PistonEngineEnglish2(Plane.PlaneEnglish):
 
         return self._plane.get_velocity_for_rate_of_climb_at_cruise()
 
-    def get_angle_of_rate_of_climb_at_cruise_in_degrees(self):
+    def get_angle_of_climb_at_cruise(self):
 
-        return self._plane.get_angle_of_rate_of_climb_at_cruise_in_degrees()
+        return self._plane.get_angle_of_climb_at_cruise()
 
 
 class PistonEngineMetric1(Plane.PlaneMetric):
@@ -201,7 +201,7 @@ class PistonEngineMetric1(Plane.PlaneMetric):
         name = "AirFoils/" + filename
         data = XFLR5Data.XFLR5Data(name)
 
-        self._specific_fuel_consumption = specific_fuel_consumption * (2.7777777 * (10 ** (-10)))
+        self._specific_fuel_consumption = specific_fuel_consumption * (2.725 * (10 ** (-9)))
         self._propeller_efficiency = propeller_efficiency
         self._aircraft_mass = aircraft_mass
         self._cargo_mass = cargo_mass
@@ -246,8 +246,8 @@ class PistonEngineMetric1(Plane.PlaneMetric):
         power = (1.132 * (self._air_density / 1.225) - 0.132) * self._engine_power
 
         return ((self._propeller_efficiency * power) / self.get_gross_takeoff_weight()) - \
-                ((((2 / self._air_density) * ((self.get_K() / (3 * self.get_cD0())) ** 0.5) * self.get_wing_loading())
-                  ** 0.5) * (1.155 / ((1 / (4 * self.get_K() * self.get_cD0())) ** 0.5)))
+               ((((2 / self._air_density) * ((self.get_K() / (3 * self.get_cD0())) ** 0.5) * self.get_wing_loading())
+                   ** 0.5) * (1.155 / ((1 / (4 * self.get_K() * self.get_cD0())) ** 0.5)))
 
     def get_velocity_for_rate_of_climb_at_cruise(self):
 
@@ -262,7 +262,7 @@ class PistonEngineMetric1(Plane.PlaneMetric):
 
             return v_climb
 
-    def get_angle_of_rate_of_climb_at_cruise_in_degrees(self):
+    def get_angle_of_climb_at_cruise_in_degrees(self):
 
         return math.degrees(math.atan(self.get_rate_of_climb_at_cruise() /
                                       self.get_velocity_for_rate_of_climb_at_cruise()))
@@ -271,12 +271,11 @@ class PistonEngineMetric1(Plane.PlaneMetric):
 
         return ((self._propeller_efficiency * self._engine_power) / self.get_gross_takeoff_weight()) - \
                ((((2 / 1.225) * ((self.get_K() / (3 * self.get_cD0())) ** 0.5) * self.get_wing_loading())
-                 ** 0.5) * (1.125 / ((1 / (4 * self.get_K() * self.get_cD0())) ** 0.5)))
+                 ** 0.5) * (1.155 / ((1 / (4 * self.get_K() * self.get_cD0())) ** 0.5)))
 
     def get_velocity_for_max_rate_of_climb(self):
 
-        v_climb = ((2 / 1.225) * ((self.get_K() / (3 * self.get_cD0())) ** 0.5) * self.get_wing_loading())\
-                  ** 0.5
+        v_climb = ((2 / 1.225) * ((self.get_K() / (3 * self.get_cD0())) ** 0.5) * self.get_wing_loading()) ** 0.5
 
         if v_climb < self.get_v_stall_at_sea_level():
 
@@ -301,16 +300,7 @@ class PistonEngineMetric2(Plane.PlaneMetric):
 
         name = filename
         if ".txt" in filename:
-            name = name[:-3]
-
-        self._specific_fuel_consumption = data.get_specific_fuel_consumption() * (2.7777777 * (10 ** (-10)))
-        self._propeller_efficiency = data.get_propeller_efficiency()
-        self._aircraft_mass = data.get_aircraft_mass()
-        self._cargo_mass = data.get_cargo_mass()
-        self._fuel_mass = data.get_fuel_mass()
-        self._air_density = AirDensity.get_air_density_metric(data.get_cruise_altitude())
-        self._engine_power = data.get_engine_power()
-        self._gravity = 9.81
+            name = name[:-4]
 
         self._plane = PistonEngineMetric1(filename, name, data.get_wingspan(), data.get_chord(),
                                           data.get_swept_angle(), data.get_cruise_altitude(),
@@ -367,6 +357,6 @@ class PistonEngineMetric2(Plane.PlaneMetric):
 
         return self._plane.get_velocity_for_rate_of_climb_at_cruise()
 
-    def get_angle_of_rate_of_climb_at_cruise_in_degrees(self):
+    def get_angle_of_climb_at_cruise_in_degrees(self):
 
-        return self._plane.get_angle_of_rate_of_climb_at_cruise_in_degrees()
+        return self._plane.get_angle_of_climb_at_cruise_in_degrees()
