@@ -203,8 +203,7 @@ class TestPistonEngine(unittest.TestCase):
 
     def test_get_max_range(self):
 
-
-        error = (self.a.get_max_range_nm() - 614.7319891835662) / 614.7319891835662
+        error = (self.a.get_max_range() - 614.7319891835662) / 614.7319891835662
 
         if error < 0:
 
@@ -215,7 +214,7 @@ class TestPistonEngine(unittest.TestCase):
     def test_get_velocity_for_max_range(self):
 
         # value in nautical mile
-        error = (self.a.get_velocity_for_max_range_knots() - 78.616256806809801) / 78.616256806809801
+        error = (self.a.get_velocity_for_max_range() - 78.616256806809801) / 78.616256806809801
 
         if error < 0:
             error = error * -1
@@ -224,7 +223,9 @@ class TestPistonEngine(unittest.TestCase):
 
     def test_get_max_endurance(self):
 
-        error = (self.a.get_max_endurance_min() - 1284.1757432) / 1284.1757432
+        error = (self.a.get_max_endurance() - 77050.54459) / 77050.54459
+
+        print(error)
 
         if error < 0:
 
@@ -234,7 +235,7 @@ class TestPistonEngine(unittest.TestCase):
 
     def test_get_velocity_for_max_endurance(self):
 
-        error = (self.a.get_velocity_for_max_endurance_knots() - 59.73540855647877) / 59.73540855647877
+        error = (self.a.get_velocity_for_max_endurance() - 59.73540855647877) / 59.73540855647877
 
         if error < 0:
 
@@ -244,7 +245,7 @@ class TestPistonEngine(unittest.TestCase):
 
     def test_get_rate_of_climb_at_cruise_ft_per_s(self):
 
-        error = (self.a.get_rate_of_climb_at_cruise_ft_per_s() - 11.792615408852265) / 11.792615408852265
+        error = (self.a.get_rate_of_climb_at_cruise() - 11.792615408852265) / 11.792615408852265
 
         if error < 0:
 
@@ -254,7 +255,7 @@ class TestPistonEngine(unittest.TestCase):
 
     def test_get_velocity_for_rate_of_climb_at_cruise(self):
 
-        error = (self.a.get_velocity_for_rate_of_climb_at_cruise_knots() - 66.732257494935496) / 66.732257494935496
+        error = (self.a.get_velocity_for_rate_of_climb_at_cruise() - 66.732257494935496) / 66.732257494935496
 
         if error < 0:
 
@@ -264,7 +265,7 @@ class TestPistonEngine(unittest.TestCase):
 
     def test_get_angle_of_climb_at_cruise_in_degrees(self):
 
-        error = (self.a.get_angle_of_climb_at_cruise_in_degrees() - 5.977147) / 5.977147
+        error = (self.a.get_angle_of_climb_at_cruise() - 5.977147) / 5.977147
 
         if error < 0:
             error = error * -1
@@ -274,7 +275,7 @@ class TestPistonEngine(unittest.TestCase):
     def test_get_max_rate_of_climb(self):
 
         # did nothing
-        error = (self.a.get_max_rate_of_climb_ft_per_s() - 16.66371767051391) / 16.66371767051391
+        error = (self.a.get_max_rate_of_climb() - 16.66371767051391) / 16.66371767051391
 
         if error < 0:
 
@@ -285,7 +286,7 @@ class TestPistonEngine(unittest.TestCase):
     def test_get_velocity_for_max_rate_of_climb(self):
 
         # units in knots knots
-        error = (self.a.get_velocity_for_max_rate_of_climb_knots() - 61.947622271145001) / 61.947622271145001
+        error = (self.a.get_velocity_for_max_rate_of_climb() - 61.947622271145001) / 61.947622271145001
 
         if error < 0:
 
@@ -296,7 +297,7 @@ class TestPistonEngine(unittest.TestCase):
     def test_get_angle_of_max_rate_of_climb_in_degrees(self):
 
         # did nothing
-        error = (self.a.get_angle_of_max_rate_of_climb_in_degrees() - 8.932510046315384) / 8.932510046315384
+        error = (self.a.get_angle_of_max_rate_of_climb() - 8.932510046315384) / 8.932510046315384
 
         if error < 0:
             error = error * -1
