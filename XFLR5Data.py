@@ -10,7 +10,7 @@ class XFLR5DataEnglishJet:
 
         name = filename
         if name.endswith(".txt"):
-            name = name[:-3]
+            name = name[:-4]
 
         for i in file:
 
@@ -218,7 +218,7 @@ class XFLR5DataMetricJet:
 
         name = filename
         if name.endswith(".txt"):
-            name = name[:-3]
+            name = name[:-4]
 
         for i in file:
 
@@ -425,8 +425,10 @@ class XFLR5DataEnglishProp:
         data = []
 
         name = filename
+
         if name.endswith(".txt"):
-            name = name[:-3]
+
+            name = name[:-4]
 
         for i in file:
 
@@ -638,7 +640,7 @@ class XFLR5DataMetricProp:
 
         name = filename
         if name.endswith(".txt"):
-            name = name[:-3]
+            name = name[:-4]
 
         for i in file:
 
@@ -849,7 +851,7 @@ class XFLR5DataMetricElectric:
 
         name = filename
         if name.endswith(".txt"):
-            name = name[:-3]
+            name = name[:-4]
 
         for i in file:
 

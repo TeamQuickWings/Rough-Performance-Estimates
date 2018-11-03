@@ -1,0 +1,25 @@
+Cessna172
+Unit System,English
+Gross Take Off Weight (N / lbf),2449.0
+Aircraft Weight (N / lbf),1691.0
+Fuel Weight (N / lbf),377.0
+Cargo Weight (N / lbf),381.0
+Maximum Range (m / nm),606.8711609730924
+Velocity for Maximum Range (m/s / knots),78.5962548671641
+Maximum Endurance (s),76085.12276157383
+Velocity for Maximum Endurance (m/s / knots),59.72023920663895
+Minimum Power Required (watts / hp),42.43936438107782
+Power Required at Target Velocity (watts / hp,104.90500226433076
+CD0,0.0341
+Wing Span (m / ft),36.09
+Wing Area (m^2 / ft^2),163.16289
+Wing Loading (N/m^2 / lbf/ft^2),15.009540465972378
+V Stall at Sea Level (m/s / knots),61.93199422665907
+Maneuvering Velocity (m/s / knots),163.41871726580302
+Minimum Turn Radius (m / ft),140.3022109224557
+Maximum Turn Rate (degrees/s),39.53994872909943
+Minimum Pull up Radius (m / ft),472.9074531238625
+Maximum Pull up Rate (degrees/s),33.417355900145786
+Max Rate of Climb (m/s / ft/s),16.120103868481678
+Velocity for Max Rate of Climb (m/s / ft/s),61.93199422665907
+Angle of Attack for Max Rate of Climb (degrees),8.766853770660706

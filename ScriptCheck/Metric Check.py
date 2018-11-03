@@ -194,14 +194,17 @@ class TestPlane(unittest.TestCase):
         self.assertTrue((10 ** (-5)) > error)
 
 
-class TestPistionEngine(unittest.TestCase):
+class TestPistonEngine(unittest.TestCase):
+
     def setUp(self):
 
         self.a = PistonEngine.PistonEngineMetric2("Cessna172Metric.txt")
 
     def test_get_max_range(self):
 
-        error = (self.a.get_max_range() - 1121338.3752) / 1121338.3752
+        error = (self.a.get_max_range() - 1138484.190046685) / 1138484.190046685
+
+        print(self.a.get_max_range())
 
         if error < 0:
 
@@ -242,6 +245,8 @@ class TestPistionEngine(unittest.TestCase):
 
         error = (self.a.get_velocity_for_rate_of_climb_at_cruise() - 34.330039) / 34.330039
 
+        print(error)
+
         if error < 0:
 
             error = error * -1
@@ -250,7 +255,7 @@ class TestPistionEngine(unittest.TestCase):
 
     def test_get_angle_of_climb_at_cruise_in_degrees(self):
 
-        error = (self.a.get_angle_of_rate_of_climb_at_cruise_in_degrees() - 5.977147) / 5.977147
+        error = (self.a.get_angle_of_climb_at_cruise_in_degrees() - 5.977147) / 5.977147
 
         if error < 0:
             error = error * -1
@@ -259,7 +264,7 @@ class TestPistionEngine(unittest.TestCase):
 
     def test_get_max_rate_of_climb(self):
 
-        error = (self.a.get_max_rate_of_climb() - 5.079101) / 5.079101
+        error = (self.a.get_max_rate_of_climb() - 5.0090187) / 5.0090187
 
         if error < 0:
             error = error * -1
@@ -277,7 +282,7 @@ class TestPistionEngine(unittest.TestCase):
 
     def test_get_angle_of_max_rate_of_climb_in_degrees(self):
 
-        error = (self.a.get_angle_of_max_rate_of_climb_in_degrees() - 9.0554301) / 9.0554301
+        error = (self.a.get_angle_of_max_rate_of_climb_in_degrees() - 8.93251) / 8.93251
 
         if error < 0:
             error = error * -1
