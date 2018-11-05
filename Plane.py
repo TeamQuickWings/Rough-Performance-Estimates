@@ -1071,7 +1071,8 @@ def write_to_csv(plane):
     writer.writerow(["Maximum Endurance (s)", plane.get_max_endurance()])
     writer.writerow(["Velocity for Maximum Endurance (m/s / knots)", plane.get_velocity_for_max_endurance()])
     writer.writerow(["Minimum Power Required (watts / hp)", plane.get_minimum_power_required()])
-    writer.writerow(["Power Required at Target Velocity (watts / hp", plane.get_power_required_at_target_cruise_velocity()])
+    writer.writerow(["Power Required at Target Velocity (watts / hp)",
+                     plane.get_power_required_at_target_cruise_velocity()])
     writer.writerow(["CD0", plane.get_cD0()])
     writer.writerow(["Wing Span (m / ft)", plane.get_wing_span()])
     writer.writerow(["Wing Area (m^2 / ft^2)", plane.get_wing_area()])
