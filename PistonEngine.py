@@ -117,6 +117,70 @@ class PistonEngineEnglish1(Plane.PlaneEnglish):
         return math.degrees(math.atan((self.get_max_rate_of_climb() * 0.5924835) /
                                       self.get_velocity_for_max_rate_of_climb()))
 
+    def get_takeoff_ground_roll(self):
+
+        mu_r = 0.05
+        n = 1
+        v_to = 0.77 * self.get_v_stall_at_sea_level()
+        t = self._engine_power / v_to
+        d = (0.5 * AirDensity.get_air_density_english(0) * (v_to ** 2) * self.get_wing_area() * self.get_cD0()) + \
+            (self.get_K() * (self.get_cL_max() ** 2))
+        l = 0.5 * AirDensity.get_air_density_english(0) * (v_to ** 2) * self.get_wing_area() * self.get_cL_max()
+        w = self.get_gross_takeoff_weight()
+
+        return ((1.21 * self.get_wing_loading()) /
+                (34.172 * AirDensity.get_air_density_english(0) * self.get_cL_max() *
+                 ((t / w) - (d / w) - (mu_r * (1 - (l / w)))))) + (1.1 * n * self.get_v_stall_at_sea_level())
+
+    def get_takeoff_rotate_distance(self):
+
+        r = (6.96 * (self.get_v_stall_at_sea_level() ** 2)) / 34.172
+        theta = math.acos(1 - (50 / r))
+
+        return r * math.sin(theta)
+
+    def get_takeoff_distance(self):
+
+        return self.get_takeoff_ground_roll() + self.get_takeoff_rotate_distance()
+
+    def get_landing_ground_roll(self):
+
+        j = 1.15
+        n = 3
+        t_rev = 0
+        mu_r = 0.3
+        v_td = 1.15 * self.get_v_stall_at_sea_level()
+        d = (0.5 * AirDensity.get_air_density_english(0) * (v_td ** 2) * self.get_wing_area() * self.get_cD0()) + \
+            (self.get_K() * (self.get_cL_max() ** 2))
+        l = 0.5 * AirDensity.get_air_density_english(0) * (v_td ** 2) * self.get_wing_area() * self.get_cL_max()
+        w = self.get_gross_takeoff_weight()
+
+        return (j * n * self.get_v_stall_at_sea_level()) + \
+               (((j ** 2) * self.get_wing_loading()) /
+                (34.172 * AirDensity.get_air_density_english(0) * self.get_cL_max()) *
+                ((t_rev / w) + (d / w) + (mu_r * (1 - (l / w)))))
+
+    def get_landing_flare_distance(self):
+
+        theta = 3
+        v_f = 1.23 * self.get_v_stall_at_sea_level()
+        r = (v_f ** 2) / (0.2 * 34.172)
+
+        return r * math.sin(theta * (math.pi / 180))
+
+    def get_landing_approach_distance(self):
+
+        theta = 3
+        v_f = 1.23 * self.get_v_stall_at_sea_level()
+        r = (v_f ** 2) / (0.2 * 34.172)
+        h_f = r * (1 - math.cos(theta * (math.pi / 180)))
+
+        return (50 - h_f) / math.tan(theta * (math.pi / 180))
+
+    def get_landing_distance(self):
+
+        return self.get_landing_ground_roll() + self.get_landing_flare_distance() + self.get_landing_approach_distance()
+
 
 class PistonEngineEnglish2(Plane.PlaneEnglish):
 
@@ -189,6 +253,34 @@ class PistonEngineEnglish2(Plane.PlaneEnglish):
     def get_angle_of_climb_at_cruise(self):
 
         return self._plane.get_angle_of_climb_at_cruise()
+
+    def get_takeoff_ground_roll(self):
+
+        return self._plane.get_takeoff_ground_roll()
+
+    def get_takeoff_rotate_distance(self):
+
+        return self._plane.get_takeoff_rotate_distance()
+
+    def get_takeoff_distance(self):
+
+        return self._plane.get_takeoff_distance()
+
+    def get_landing_ground_roll(self):
+
+        return self._plane.get_landing_ground_roll()
+
+    def get_landing_flare_distance(self):
+
+        return self._plane.get_landing_flare_distance()
+
+    def get_landing_approach_distance(self):
+
+        return self._plane.get_landing_approach_distance()
+
+    def get_landing_distance(self):
+
+        return self._plane.get_landing_distance()
 
 
 class PistonEngineMetric1(Plane.PlaneMetric):
