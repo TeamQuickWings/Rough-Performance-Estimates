@@ -103,6 +103,7 @@ class PlaneEnglish(object):
             if self._alpha[i] == angle_of_attack_at_cruise:
 
                 self._cd_at_cruise = self._cdx[i]
+
                 break
 
         # Block to estimate the 3D CL data at alpha
@@ -143,7 +144,7 @@ class PlaneEnglish(object):
 
             # Equation to estimate cD at angle alpha
             cD_value = (((self._a_per_degree * (self._alpha[i] - self._zero_lift_angle)) ** 2) * self._K) + \
-                       (self._cD0 + self._cd0)
+                       self._cD0
             # Adding "cD_value" to the list "cD"
             self._cD.append(cD_value)
             self._cd.append(self._cd0)
@@ -171,7 +172,7 @@ class PlaneEnglish(object):
         precision = 1
         i = precision
 
-        # While to calculate power and thrust required from 0 m/s to "max_velocity"
+        # While to calculate power and thrust required from 0 ft/s to "max_velocity"
         while i <= self._max_velocity:
 
             # adding "i" to "velocity"
@@ -393,7 +394,8 @@ class PlaneEnglish(object):
             print("n < 1. n needs to be greater than 1")
             return -1
 
-        return (self._target_cruise_velocity ** 2) / (_gravity_english * (((self.get_n_at_target_velocity() ** 2) - 1) ** .5))
+        return (self._target_cruise_velocity ** 2) / (_gravity_english * (((self.get_n_at_target_velocity() ** 2) - 1)
+                                                                          ** .5))
 
     # Method to get the turn rate in degrees/s at the target velocity
     def get_turn_rate_at_target_velocity(self):
@@ -482,10 +484,10 @@ class PlaneEnglish(object):
         axs2 = axs[1, 0].twinx()
         axs2.plot(self._velocity, self._thrust, "b", label=label6)
         axs2.set_ylabel("Thrust (lbf)")
-        axs2.set_ylim(0, 220)
+        axs2.set_ylim(0, 1000)
         axs2.legend()
         axs[1, 0].plot(self._velocity, self._power, "r", label=label7)
-        axs[1, 0].set_ylim(0, 60000)
+        axs[1, 0].set_ylim(0, 6000)
         axs[1, 0].set_xlabel("Velocity (knots)")
         axs[1, 0].set_ylabel("Power (hp)")
         axs[1, 0].set_title("Thrust Required and Power Required vs. Velocity")
@@ -619,6 +621,7 @@ class PlaneMetric(object):
         for i in range(0, len(self._alpha)):
 
             temp = self._cdx[i]
+
             if temp < self._cd0:
 
                 self._cd0 = temp
@@ -637,7 +640,7 @@ class PlaneMetric(object):
             self._cd.append(self._cd0)
 
         self._cD_at_cruise = (((self._a_per_degree * (angle_of_attack_at_cruise - self._zero_lift_angle)) ** 2) *
-                              self._K) + (self._cD0 + self._cd0)
+                              self._K) + self._cD0
 
         # Equation for the gross takeoff weight
         self._gross_takeoff_weight = (cargo_mass + fuel_mass + aircraft_mass) * _gravity_metric
@@ -973,7 +976,7 @@ class PlaneMetric(object):
         axs2.set_ylabel("Thrust (N)")
         axs2.legend()
         axs[1, 0].plot(self._velocity, self._power, "r", label=label7)
-        axs[1, 0].set_ylim(0, 60000)
+        axs[1, 0].set_ylim(0, 6000)
         axs[1, 0].set_xlabel("Velocity (m/s)")
         axs[1, 0].set_ylabel("Power (watts)")
         axs[1, 0].set_title("Thrust Required and Power Required vs. Velocity")
@@ -1086,5 +1089,7 @@ def write_to_csv(plane):
     writer.writerow(["Max Rate of Climb (m/s / ft/s)", plane.get_max_rate_of_climb()])
     writer.writerow(["Velocity for Max Rate of Climb (m/s / ft/s)", plane.get_velocity_for_max_rate_of_climb()])
     writer.writerow(["Angle of Attack for Max Rate of Climb (degrees)", plane.get_angle_of_max_rate_of_climb()])
+    writer.writerow(["Takeoff distance (m / ft)", plane.get_takeoff_distance()])
+    writer.writerow(["Landing distance (m / ft)", plane.get_landing_distance()])
 
     file.close()

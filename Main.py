@@ -8,5 +8,6 @@ import ElectricMotor
 import Plane
 import XFLR5Data
 
-a = PistonEngine.PistonEngineEnglish2("Cessna172.txt")
+a = PistonEngine.PistonEngineEnglish2("Design1.txt")
 Plane.write_to_csv(a)
+a.plot_data()
