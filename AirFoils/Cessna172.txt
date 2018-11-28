@@ -11,7 +11,7 @@ cargo_weight: 381
 fuel_weight: 377
 cD0: 0.0341
 span_efficiency_factor: 0.7
-specific_fuel_consumption: 0.3289096
+specific_fuel_consumption: 0.3289096 #
 propeller_efficiency: 0.7
 engine_power: 160.9227
 n_structure: 6

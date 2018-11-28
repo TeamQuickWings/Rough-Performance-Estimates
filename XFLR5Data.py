@@ -113,6 +113,7 @@ class XFLR5DataEnglishJet:
         # while loop to find the starting index of usable data
         start_index = 0
         while start_angle != self._alpha[start_index]:
+
             start_index += 1
 
         # while loop to find the ending index of usable data
