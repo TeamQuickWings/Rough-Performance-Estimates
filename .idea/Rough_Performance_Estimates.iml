@@ -7,6 +7,8 @@
     <orderEntry type="module" module-name="CostEstimate" />
     <orderEntry type="module" module-name="Cost_Estimates" />
     <orderEntry type="module" module-name="Cost_Estimates" />
+    <orderEntry type="module" module-name="Practice" />
+    <orderEntry type="module" module-name="Practice_py" />
   </component>
   <component name="TestRunnerService">
     <option name="PROJECT_TEST_RUNNER" value="Unittests" />
