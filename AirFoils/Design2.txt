@@ -9,24 +9,23 @@ max_velocity: 250
 aircraft_weight: 2500
 fuel_weight: 810
 cargo_weight: 1200
-cD0: 0.033
+cD0: 0.012985853989425476
 span_efficiency_factor: 0.8
 specific_fuel_consumption: 0.4915
 propeller_efficiency: 0.7
 engine_power: 300
 n_structure: 6
 
-
 xflr5 v6.39
 
  Calculated polar for: C:/Users/Andrew Scherping/Documents/XFLR5/NACA24112.dat
 
- 1 1 Reynolds number fixed          Mach number fixed         
+ 1 1 Reynolds number fixed          Mach number fixed
 
  xtrf =   1.000 (top)        1.000 (bottom)
  Mach =   0.000     Re =     9.371 e 6     Ncrit =   9.000
 
-  alpha     CL        CD       CDp       Cm    Top Xtr Bot Xtr   Cpmin    Chinge    XCp    
+  alpha     CL        CD       CDp       Cm    Top Xtr Bot Xtr   Cpmin    Chinge    XCp
  ------- -------- --------- --------- -------- ------- ------- -------- --------- ---------
  -20.000  -1.8463   0.02623   0.02291  -0.0401  1.0000  0.0058  -22.0116   0.0000   0.2029
  -19.800  -1.8410   0.02537   0.02202  -0.0385  1.0000  0.0058  -21.7944   0.0000   0.2041
@@ -224,5 +223,3 @@ xflr5 v6.39
   19.600   1.8217   0.04671   0.04292   0.0168  0.0039  1.0000  -12.5264   0.0000   0.2067
   19.800   1.8076   0.05088   0.04716   0.0154  0.0038  1.0000  -12.5378   0.0000   0.2068
   20.000   1.7905   0.05525   0.05161   0.0141  0.0037  1.0000  -12.5224   0.0000   0.2069
-
-

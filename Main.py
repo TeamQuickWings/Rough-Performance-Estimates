@@ -9,5 +9,13 @@ import Plane
 import XFLR5Data
 
 a = PistonEngine.PistonEngineEnglish2("Design1.txt")
+b = PistonEngine.PistonEngineEnglish2("Design2.txt")
+c = PistonEngine.PistonEngineEnglish2("Design3.txt")
+d = PistonEngine.PistonEngineEnglish2("Design4.txt")
+e = PistonEngine.PistonEngineEnglish2("Design5.txt")
 Plane.write_to_csv(a)
-a.plot_data()
+Plane.write_to_csv(b)
+Plane.write_to_csv(c)
+Plane.write_to_csv(d)
+Plane.write_to_csv(e)
+
