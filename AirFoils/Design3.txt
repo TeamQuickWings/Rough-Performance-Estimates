@@ -1,6 +1,6 @@
-angles: -7 9
-wingspan: 48
-chord: 4.75
+angles: -7.0 10.0
+wingspan: 33
+chord: 3.6
 swept_angle: 0
 cruise_altitude: 5000
 angle_of_attack_at_cruise: 0.6
@@ -9,11 +9,11 @@ max_velocity: 250
 aircraft_weight: 2500
 fuel_weight: 810
 cargo_weight: 1200
-cD0: 0.012985853989425476
+cD0: 0.029150196274951287
 span_efficiency_factor: 0.8
-specific_fuel_consumption: 0.77
-propeller_efficiency: 0.7
-engine_power: 420
+specific_fuel_consumption: 0.427
+propeller_efficiency: 0.8
+engine_power: 330
 n_structure: 6
 
 xflr5 v6.39
