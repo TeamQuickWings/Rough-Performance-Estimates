@@ -111,6 +111,7 @@ class PlaneEnglish(object):
         self._cL = []
         # For loop to add the 3D wing analysis to "cL"
         self._cL_max = 0
+        self._cL_at_cruise = None
         for i in range(0, len(self._alpha)):
 
             # Equation to estimate cL at angle alpha
@@ -133,7 +134,9 @@ class PlaneEnglish(object):
         for i in range(0, len(self._alpha)):
 
             temp = self._cdx[i]
+
             if temp < self._cd0:
+
                 self._cd0 = temp
 
         # Block to estimate the 3D CD data at alpha
@@ -144,7 +147,7 @@ class PlaneEnglish(object):
 
             # Equation to estimate cD at angle alpha
             cD_value = (((self._a_per_degree * (self._alpha[i] - self._zero_lift_angle)) ** 2) * self._K) + \
-                       self._cD0
+                       self._cd0
             # Adding "cD_value" to the list "cD"
             self._cD.append(cD_value)
             self._cd.append(self._cd0)
@@ -153,6 +156,8 @@ class PlaneEnglish(object):
             if self._alpha[i] == angle_of_attack_at_cruise:
 
                 self._cD_at_cruise = cD_value
+
+        self._cD0 = self._cD0 + self._cd0
 
         # Equation for the gross takeoff weight
         self._gross_takeoff_weight = cargo_weight + fuel_weight + aircraft_weight
@@ -340,6 +345,7 @@ class PlaneEnglish(object):
     # Method to get CL at cruise
     def get_cL_at_cruise(self):
 
+        print("hit")
         return self._cL_at_cruise
 
     # Method to get CD at cruise
