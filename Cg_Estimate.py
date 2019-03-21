@@ -1,6 +1,8 @@
 # CG_estimate calculation
 # Statistical Weight Estimation Methods
 import math
+# Nicolai refers to the equation in the Nicolai book
+# Raymer refers to the equations in the Raymer book
 # -------------------------------------------------------------------------------------------------------------
 S_w = 154  # Trapezodial wing area
 W_fw = 600  # weight of fuel in wing in lbf
