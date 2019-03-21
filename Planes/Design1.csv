@@ -4,24 +4,24 @@ Gross Take Off Weight (N / lbf),4510.0
 Aircraft Weight (N / lbf),2500.0
 Fuel Weight (N / lbf),810.0
 Cargo Weight (N / lbf),1200.0
-Maximum Range (m / nm),517.1273913764574
-Velocity for Maximum Range (m/s / knots),91.86414513148844
-Maximum Endurance (s),55905.09825167655
-Velocity for Maximum Endurance (m/s / knots),69.80165570278193
-Minimum Power Required (watts / hp),84.95564157741747
-Power Required at Target Velocity (watts / hp),2418.5651142447614
-CD0,0.033
-Wing Span (m / ft),44.5
-Wing Area (m^2 / ft^2),211.375
-Wing Loading (N/m^2 / lbf/ft^2),21.336487285629804
-V Stall at Sea Level (m/s / knots),75.07563334292108
-Maneuvering Velocity (m/s / knots),198.10057551056116
-Minimum Turn Radius (m / ft),206.17328695508476
-Maximum Turn Rate (degrees/s),32.617611965092784
-Minimum Pull up Radius (m / ft),694.9347654257039
-Maximum Pull up Rate (degrees/s),27.566913531381942
-Max Rate of Climb (m/s / ft/s),15.657537165195695
-Velocity for Max Rate of Climb (m/s / ft/s),75.07563334292108
-Angle of Attack for Max Rate of Climb (degrees),7.044131603307669
-Takeoff distance (m / ft),908.7290922503673
-Landing distance (m / ft),1299.9381376583408
+Maximum Range (m / nm),497.33970654387076
+Velocity for Maximum Range (m/s / knots),84.58691463469236
+Maximum Endurance (s),58391.53073977056
+Velocity for Maximum Endurance (m/s / knots),64.2721562786042
+Minimum Power Required (watts / hp),81.34012849567364
+Power Required at Target Velocity (watts / hp),464.9588259955321
+CD0,0.03752
+Wing Span (m / ft),48.0
+Wing Area (m^2 / ft^2),228.0
+Wing Loading (N/m^2 / lbf/ft^2),19.780701754385966
+V Stall at Sea Level (m/s / knots),71.89660361748994
+Maneuvering Velocity (m/s / knots),189.71213321402382
+Minimum Turn Radius (m / ft),189.08241270922687
+Maximum Turn Rate (degrees/s),34.05985475254462
+Minimum Pull up Radius (m / ft),637.3276774252448
+Maximum Pull up Rate (degrees/s),28.785831159548373
+Max Rate of Climb (m/s / ft/s),16.067179620162904
+Velocity for Max Rate of Climb (m/s / ft/s),71.89660361748994
+Angle of Attack for Max Rate of Climb (degrees),7.542430571700628
+Takeoff distance (m / ft),830.0504613836994
+Landing distance (m / ft),1282.256176244694

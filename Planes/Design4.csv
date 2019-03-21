@@ -1,0 +1,27 @@
+Design4
+Unit System,English
+Gross Take Off Weight (N / lbf),4510.0
+Aircraft Weight (N / lbf),2500.0
+Fuel Weight (N / lbf),810.0
+Cargo Weight (N / lbf),1200.0
+Maximum Range (m / nm),348.99635898248647
+Velocity for Maximum Range (m/s / knots),100.20792355371978
+Maximum Endurance (s),34587.465885389815
+Velocity for Maximum Endurance (m/s / knots),76.14155630116304
+Minimum Power Required (watts / hp),68.6598107141083
+Power Required at Target Velocity (watts / hp),246.81015897978432
+CD0,0.019048786480106192
+Wing Span (m / ft),48.0
+Wing Area (m^2 / ft^2),228.0
+Wing Loading (N/m^2 / lbf/ft^2),19.780701754385966
+V Stall at Sea Level (m/s / knots),81.43113332521344
+Maneuvering Velocity (m/s / knots),214.8707064849966
+Minimum Turn Radius (m / ft),242.5578552772819
+Maximum Turn Rate (degrees/s),30.071887451611406
+Minimum Pull up Radius (m / ft),817.573841639345
+Maximum Pull up Rate (degrees/s),25.41538362744647
+Max Rate of Climb (m/s / ft/s),42.78056104526009
+Velocity for Max Rate of Climb (m/s / ft/s),81.43113332521344
+Angle of Attack for Max Rate of Climb (degrees),17.28961075731751
+Takeoff distance (m / ft),755.571871105398
+Landing distance (m / ft),1335.8536665201066
